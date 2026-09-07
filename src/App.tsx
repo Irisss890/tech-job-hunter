@@ -15,7 +15,7 @@ export const App: React.FC = () => {
   const [activeRegion, setActiveRegion] = useState<RegionFilter>('National');
   const [activeCategory, setActiveCategory] = useState<IndustryCategory | 'All'>('All');
   const [activeSpecialization, setActiveSpecialization] = useState<
-    Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail'
+    Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail' | 'OG Startups'
   >('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSkills, setSelectedSkills] = useState<string[]>([
@@ -37,7 +37,7 @@ export const App: React.FC = () => {
   // Trigger Hunt scanner effect
   const handleTriggerHunt = () => {
     setIsHunting(true);
-    setHuntPhaseText('Scanning National & International portals...');
+    setHuntPhaseText('Scanning National & OG Startup portals...');
 
     setTimeout(() => {
       setHuntPhaseText('Filtering Indian & Global tech hubs...');
@@ -53,21 +53,20 @@ export const App: React.FC = () => {
     }, 2400);
   };
 
-  // Compute counts for National vs International & Industries
-  const { countsByIndustry, nationalCount, internationalCount } = useMemo(() => {
+  // Compute counts for National vs International, Industries, and OG Startups
+  const { countsByIndustry, nationalCount, internationalCount, ogStartupCount } = useMemo(() => {
     const counts: Record<string, number> = { All: 0 };
     let natCount = 0;
     let intCount = 0;
+    let ogCount = 0;
 
     JOB_DATASET.forEach(item => {
-      // Count region
       if (item.isIndiaRole) {
         natCount++;
       } else {
         intCount++;
       }
 
-      // Count industry based on active region filter
       if (
         activeRegion === 'All' ||
         (activeRegion === 'National' && item.isIndiaRole) ||
@@ -75,13 +74,15 @@ export const App: React.FC = () => {
       ) {
         counts['All'] = (counts['All'] || 0) + 1;
         counts[item.industry] = (counts[item.industry] || 0) + 1;
+        if (item.isOGStartup) ogCount++;
       }
     });
 
     return {
       countsByIndustry: counts,
       nationalCount: natCount,
-      internationalCount: intCount
+      internationalCount: intCount,
+      ogStartupCount: ogCount
     };
   }, [activeRegion]);
 
@@ -101,9 +102,11 @@ export const App: React.FC = () => {
         return false;
       }
 
-      // 3. SPECIALIZATION FILTER
+      // 3. SPECIALIZATION & OG STARTUPS FILTER
       if (activeSpecialization !== 'All') {
-        if (activeSpecialization === 'MNC Apprenticeships') {
+        if (activeSpecialization === 'OG Startups') {
+          if (!item.isOGStartup) return false;
+        } else if (activeSpecialization === 'MNC Apprenticeships') {
           if (item.industry !== 'MNC Apprenticeships') return false;
         } else if (activeSpecialization === 'Direct Apply') {
           if (item.applyMode !== 'Direct Apply') return false;
@@ -169,6 +172,7 @@ export const App: React.FC = () => {
         countsByIndustry={countsByIndustry}
         nationalCount={nationalCount}
         internationalCount={internationalCount}
+        ogStartupCount={ogStartupCount}
       />
 
       {/* Interactive Spreadsheet Data Grid */}

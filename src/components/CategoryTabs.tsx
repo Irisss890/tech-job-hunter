@@ -1,6 +1,6 @@
 import React from 'react';
 import type { IndustryCategory, Specialization } from '../types/job';
-import { Sparkles, Cpu, BarChart3, GraduationCap, Link, Mail, Globe } from 'lucide-react';
+import { Sparkles, Cpu, BarChart3, GraduationCap, Link, Mail, Globe, Flame } from 'lucide-react';
 
 export type RegionFilter = 'All' | 'National' | 'International';
 
@@ -9,11 +9,12 @@ interface CategoryTabsProps {
   onSelectRegion: (region: RegionFilter) => void;
   activeIndustry: IndustryCategory | 'All';
   onSelectIndustry: (ind: IndustryCategory | 'All') => void;
-  activeSpecialization: Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail';
+  activeSpecialization: Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail' | 'OG Startups';
   onSelectSpecialization: (spec: any) => void;
   countsByIndustry: Record<string, number>;
   nationalCount: number;
   internationalCount: number;
+  ogStartupCount: number;
 }
 
 const INDUSTRIES: Array<IndustryCategory | 'All'> = [
@@ -34,7 +35,8 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   onSelectSpecialization,
   countsByIndustry,
   nationalCount,
-  internationalCount
+  internationalCount,
+  ogStartupCount
 }) => {
   return (
     <div style={{ marginBottom: '24px' }}>
@@ -254,6 +256,31 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
       {/* Special Highlight Filter Chips */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '14px', flexWrap: 'wrap' }}>
         <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)', fontWeight: 600 }}>Highlight Filters:</span>
+
+        {/* 🔥 OG Startups Filter Chip */}
+        <button
+          onClick={() => onSelectSpecialization(activeSpecialization === 'OG Startups' ? 'All' : 'OG Startups')}
+          style={{
+            background: activeSpecialization === 'OG Startups'
+              ? 'linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(245, 158, 11, 0.3) 100%)'
+              : 'rgba(239, 68, 68, 0.12)',
+            color: '#fca5a5',
+            border: '1px solid rgba(239, 68, 68, 0.5)',
+            boxShadow: activeSpecialization === 'OG Startups' ? '0 0 16px rgba(239, 68, 68, 0.4)' : undefined,
+            padding: '6px 14px',
+            borderRadius: '9999px',
+            fontSize: '0.8rem',
+            fontWeight: 800,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <Flame size={14} color="#fca5a5" />
+          🔥 OG Startups ({ogStartupCount})
+        </button>
 
         <button
           onClick={() => onSelectSpecialization(activeSpecialization === 'Agentic AI' ? 'All' : 'Agentic AI')}

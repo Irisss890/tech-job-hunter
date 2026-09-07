@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { JobListing } from '../types/job';
 import { calculateChance } from '../utils/chanceCalculator';
-import { ExternalLink, Mail, ArrowUpDown, Sparkles, Cpu, BarChart3, GraduationCap, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ExternalLink, Mail, ArrowUpDown, Sparkles, Cpu, BarChart3, GraduationCap, ChevronLeft, ChevronRight, Flame } from 'lucide-react';
 
 interface SpreadsheetGridProps {
   listings: JobListing[];
@@ -31,7 +31,6 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
     }
   };
 
-  // Sorted listings calculation
   const sortedListings = [...listings].sort((a, b) => {
     let aVal: any = a[sortField as keyof JobListing];
     let bVal: any = b[sortField as keyof JobListing];
@@ -46,7 +45,6 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
     return 0;
   });
 
-  // Pagination calculation
   const totalItems = sortedListings.length;
   const totalPages = pageSize === -1 ? 1 : Math.ceil(totalItems / pageSize);
   const startIndex = pageSize === -1 ? 0 : (currentPage - 1) * pageSize;
@@ -79,7 +77,7 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
               </th>
               <th onClick={() => handleSort('roleTitle')} style={{ cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>Role & Specialization</span>
+                  <span>Role &amp; Specialization</span>
                   <ArrowUpDown size={12} />
                 </div>
               </th>
@@ -89,7 +87,7 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
                   <ArrowUpDown size={12} />
                 </div>
               </th>
-              <th>Location & Mode</th>
+              <th>Location &amp; Mode</th>
               <th onClick={() => handleSort('chance')} style={{ cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span>Getting-In Chance %</span>
@@ -112,7 +110,7 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
                 const chance = calculateChance(item, selectedSkills);
                 return (
                   <tr key={item.id}>
-                    {/* Company Column */}
+                    {/* Company Column with OG Startup Tag */}
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <div 
@@ -120,20 +118,40 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
                             width: '34px',
                             height: '34px',
                             borderRadius: '8px',
-                            background: 'rgba(255, 255, 255, 0.08)',
+                            background: item.isOGStartup ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255, 255, 255, 0.08)',
+                            border: item.isOGStartup ? '1px solid rgba(239, 68, 68, 0.4)' : '1px solid var(--border-glass)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             fontWeight: 700,
                             fontSize: '0.85rem',
-                            color: 'var(--primary)',
-                            border: '1px solid var(--border-glass)'
+                            color: item.isOGStartup ? '#fca5a5' : 'var(--primary)'
                           }}
                         >
                           {item.company.charAt(0)}
                         </div>
                         <div>
-                          <strong style={{ fontSize: '0.9rem', color: 'white', display: 'block' }}>{item.company}</strong>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <strong style={{ fontSize: '0.9rem', color: 'white' }}>{item.company}</strong>
+                            {item.isOGStartup && (
+                              <span 
+                                style={{
+                                  background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%)',
+                                  color: '#fca5a5',
+                                  border: '1px solid rgba(239, 68, 68, 0.4)',
+                                  borderRadius: '4px',
+                                  padding: '1px 6px',
+                                  fontSize: '0.68rem',
+                                  fontWeight: 800,
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '2px'
+                                }}
+                              >
+                                <Flame size={10} color="#fca5a5" /> OG Startup
+                              </span>
+                            )}
+                          </div>
                           <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>{item.domain}</span>
                         </div>
                       </div>
