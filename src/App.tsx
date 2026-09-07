@@ -13,7 +13,7 @@ import { exportToGoogleSheetsCSV } from './utils/csvExporter';
 export const App: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<IndustryCategory | 'All'>('All');
   const [activeSpecialization, setActiveSpecialization] = useState<
-    Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail'
+    Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail' | 'India Only'
   >('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSkills, setSelectedSkills] = useState<string[]>([
@@ -35,14 +35,14 @@ export const App: React.FC = () => {
   // Trigger Hunt scanner effect
   const handleTriggerHunt = () => {
     setIsHunting(true);
-    setHuntPhaseText('Scanning 500+ portals...');
+    setHuntPhaseText('Scanning Indian & Global portals...');
 
     setTimeout(() => {
-      setHuntPhaseText('Evaluating Agentic AI & ML roles...');
+      setHuntPhaseText('Prioritizing Bengaluru, Hyd & NCR roles...');
     }, 800);
 
     setTimeout(() => {
-      setHuntPhaseText('Calculating admission chances...');
+      setHuntPhaseText('Evaluating Agentic AI & ML admission chances...');
     }, 1600);
 
     setTimeout(() => {
@@ -51,18 +51,20 @@ export const App: React.FC = () => {
     }, 2400);
   };
 
-  // Industry count computation
-  const countsByIndustry = useMemo(() => {
+  // Industry count computation & India count
+  const { countsByIndustry, indiaCount } = useMemo(() => {
     const counts: Record<string, number> = { All: JOB_DATASET.length };
+    let countIn = 0;
     JOB_DATASET.forEach(item => {
       counts[item.industry] = (counts[item.industry] || 0) + 1;
+      if (item.isIndiaRole) countIn++;
     });
-    return counts;
+    return { countsByIndustry: counts, indiaCount: countIn };
   }, []);
 
-  // Filtered listings computation
+  // Filtered listings computation prioritizing Indian roles
   const filteredListings = useMemo(() => {
-    return JOB_DATASET.filter(item => {
+    const list = JOB_DATASET.filter(item => {
       // Category filter
       if (activeCategory !== 'All' && item.industry !== activeCategory) {
         return false;
@@ -70,7 +72,9 @@ export const App: React.FC = () => {
 
       // Specialization / Highlight filter
       if (activeSpecialization !== 'All') {
-        if (activeSpecialization === 'MNC Apprenticeships') {
+        if (activeSpecialization === 'India Only') {
+          if (!item.isIndiaRole) return false;
+        } else if (activeSpecialization === 'MNC Apprenticeships') {
           if (item.industry !== 'MNC Apprenticeships') return false;
         } else if (activeSpecialization === 'Direct Apply') {
           if (item.applyMode !== 'Direct Apply') return false;
@@ -93,6 +97,13 @@ export const App: React.FC = () => {
       }
 
       return true;
+    });
+
+    // Prioritize Indian roles at top when sorting
+    return list.sort((a, b) => {
+      if (a.isIndiaRole && !b.isIndiaRole) return -1;
+      if (!a.isIndiaRole && b.isIndiaRole) return 1;
+      return 0;
     });
   }, [activeCategory, activeSpecialization, searchQuery]);
 
@@ -130,6 +141,7 @@ export const App: React.FC = () => {
         activeSpecialization={activeSpecialization}
         onSelectSpecialization={setActiveSpecialization}
         countsByIndustry={countsByIndustry}
+        indiaCount={indiaCount}
       />
 
       {/* Interactive Spreadsheet Data Grid */}

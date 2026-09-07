@@ -1,13 +1,14 @@
 import React from 'react';
 import type { IndustryCategory, Specialization } from '../types/job';
-import { Sparkles, Cpu, BarChart3, GraduationCap, Link, Mail } from 'lucide-react';
+import { Sparkles, Cpu, BarChart3, GraduationCap, Link, Mail, MapPin } from 'lucide-react';
 
 interface CategoryTabsProps {
   activeIndustry: IndustryCategory | 'All';
   onSelectIndustry: (ind: IndustryCategory | 'All') => void;
-  activeSpecialization: Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail';
+  activeSpecialization: Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail' | 'India Only';
   onSelectSpecialization: (spec: any) => void;
   countsByIndustry: Record<string, number>;
+  indiaCount: number;
 }
 
 const INDUSTRIES: Array<IndustryCategory | 'All'> = [
@@ -24,7 +25,8 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   onSelectIndustry,
   activeSpecialization,
   onSelectSpecialization,
-  countsByIndustry
+  countsByIndustry,
+  indiaCount
 }) => {
   return (
     <div style={{ marginBottom: '24px' }}>
@@ -74,6 +76,29 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
       {/* Special Highlight Filter Chips */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '14px', flexWrap: 'wrap' }}>
         <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)', fontWeight: 600 }}>Highlight Filters:</span>
+
+        {/* India Roles Filter Chip */}
+        <button
+          onClick={() => onSelectSpecialization(activeSpecialization === 'India Only' ? 'All' : 'India Only')}
+          style={{
+            background: activeSpecialization === 'India Only' ? 'rgba(245, 158, 11, 0.25)' : 'rgba(245, 158, 11, 0.12)',
+            color: '#fef08a',
+            border: '1px solid rgba(245, 158, 11, 0.5)',
+            boxShadow: activeSpecialization === 'India Only' ? '0 0 14px rgba(245, 158, 11, 0.4)' : undefined,
+            padding: '6px 14px',
+            borderRadius: '9999px',
+            fontSize: '0.8rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <MapPin size={14} color="#fef08a" />
+          🇮🇳 India Roles Only ({indiaCount})
+        </button>
 
         <button
           onClick={() => onSelectSpecialization(activeSpecialization === 'Agentic AI' ? 'All' : 'Agentic AI')}

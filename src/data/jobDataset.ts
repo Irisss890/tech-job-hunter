@@ -1,90 +1,81 @@
 import type { JobListing, IndustryCategory, Specialization } from '../types/job';
 
-// Generator helper for rich 500+ dataset production
+// Helper generator for 520+ listings heavily prioritizing Indian Tech Hubs & MNC R&D Centers
 const generate500Listings = (): JobListing[] => {
   const listings: JobListing[] = [];
 
-  const companiesByIndustry: Record<IndustryCategory, Array<{ company: string; domain: string }>> = {
+  const companiesByIndustry: Record<IndustryCategory, Array<{ company: string; domain: string; isIndianCompany?: boolean }>> = {
     'Tech & IT': [
-      { company: 'Google', domain: 'google.com' },
-      { company: 'Microsoft', domain: 'microsoft.com' },
-      { company: 'OpenAI', domain: 'openai.com' },
-      { company: 'Anthropic', domain: 'anthropic.com' },
-      { company: 'Nvidia', domain: 'nvidia.com' },
-      { company: 'Meta', domain: 'meta.com' },
-      { company: 'Adobe', domain: 'adobe.com' },
-      { company: 'Apple', domain: 'apple.com' },
-      { company: 'Amazon Web Services', domain: 'aws.amazon.com' },
-      { company: 'Spotify', domain: 'spotify.com' },
-      { company: 'Uber Technologies', domain: 'uber.com' },
-      { company: 'Palantir', domain: 'palantir.com' },
-      { company: 'Databricks', domain: 'databricks.com' },
-      { company: 'Snowflake', domain: 'snowflake.com' },
-      { company: 'Scale AI', domain: 'scale.com' },
-      { company: 'Cohere', domain: 'cohere.com' },
-      { company: 'Mistral AI', domain: 'mistral.ai' },
-      { company: 'Atlassian', domain: 'atlassian.com' },
-      { company: 'Salesforce', domain: 'salesforce.com' },
-      { company: 'Oracle', domain: 'oracle.com' }
+      { company: 'Google India', domain: 'google.co.in' },
+      { company: 'Microsoft India', domain: 'microsoft.com/en-in' },
+      { company: 'Amazon India Tech', domain: 'amazon.jobs/en-in' },
+      { company: 'Swiggy AI Labs', domain: 'swiggy.com', isIndianCompany: true },
+      { company: 'Zomato AI & Data', domain: 'zomato.com', isIndianCompany: true },
+      { company: 'Razorpay Tech', domain: 'razorpay.com', isIndianCompany: true },
+      { company: 'Flipkart Engineering', domain: 'flipkart.com', isIndianCompany: true },
+      { company: 'Reliance Jio AI', domain: 'jio.com', isIndianCompany: true },
+      { company: 'OpenAI (Remote India)', domain: 'openai.com' },
+      { company: 'Nvidia India R&D', domain: 'nvidia.com' },
+      { company: 'Adobe India', domain: 'adobe.com/in' },
+      { company: 'Meta India', domain: 'metacareers.com' },
+      { company: 'Salesforce India', domain: 'salesforce.com/in' },
+      { company: 'CRED Engineering', domain: 'cred.club', isIndianCompany: true },
+      { company: 'Ola Electric AI', domain: 'olaelectric.com', isIndianCompany: true },
+      { company: 'InMobi AdTech', domain: 'inmobi.com', isIndianCompany: true },
+      { company: 'Persistent Systems', domain: 'persistent.com', isIndianCompany: true },
+      { company: 'LTI Mindtree AI', domain: 'ltimindtree.com', isIndianCompany: true }
     ],
     'Automobile & Mobility': [
-      { company: 'Tesla', domain: 'tesla.com' },
-      { company: 'BMW Group', domain: 'bmwgroup.com' },
-      { company: 'Mercedes-Benz Tech', domain: 'mercedes-benz.com' },
-      { company: 'Ford Motor Co.', domain: 'ford.com' },
-      { company: 'Robert Bosch', domain: 'bosch.com' },
-      { company: 'Siemens Mobility', domain: 'siemens.com' },
-      { company: 'Volvo Autonomous Solutions', domain: 'volvo.com' },
-      { company: 'Rivian Automotive', domain: 'rivian.com' },
-      { company: 'Lucid Motors', domain: 'lucidmotors.com' },
-      { company: 'Waymo Autonomous Driving', domain: 'waymo.com' },
-      { company: 'Cruise AI Mobility', domain: 'getcruise.com' },
-      { company: 'Porsche Digital', domain: 'porsche.digital' },
-      { company: 'Audi AG Software', domain: 'audi.com' },
-      { company: 'Hyundai Motor Group AI', domain: 'hyundai.com' },
-      { company: 'Toyota Research Institute', domain: 'tri.global' }
+      { company: 'Tata Motors EV & AI', domain: 'tatamotors.com', isIndianCompany: true },
+      { company: 'Mahindra Tech & Mobility', domain: 'mahindra.com', isIndianCompany: true },
+      { company: 'Ola Electric Mobility', domain: 'olaelectric.com', isIndianCompany: true },
+      { company: 'Mercedes-Benz R&D India (MBRDI)', domain: 'mbrdi.mercedes-benz.com' },
+      { company: 'BMW TechWorks India', domain: 'bmwgroup.jobs' },
+      { company: 'Robert Bosch India (RBAI)', domain: 'bosch.in' },
+      { company: 'Ather Energy AI', domain: 'atherenergy.com', isIndianCompany: true },
+      { company: 'TVS Motor Tech', domain: 'tvsmotor.com', isIndianCompany: true },
+      { company: 'Renault-Nissan Technology India', domain: 'rntbcprect.com' },
+      { company: 'Hyundai Mobis India', domain: 'mobis.co.in' },
+      { company: 'Continental Automotive India', domain: 'continental.com/in' },
+      { company: 'Volvo Group India', domain: 'volvogroup.in' }
     ],
     'Marketing & AdTech': [
-      { company: 'Adobe Experience Cloud', domain: 'adobe.com' },
-      { company: 'Ogilvy Growth & Tech', domain: 'ogilvy.com' },
-      { company: 'HubSpot', domain: 'hubspot.com' },
-      { company: 'Publicis Sapient', domain: 'publicissapient.com' },
-      { company: 'WPP Digital Analytics', domain: 'wpp.com' },
-      { company: 'ByteDance Ads Tech', domain: 'bytedance.com' },
-      { company: 'Trade Desk', domain: 'thetradedesk.com' },
-      { company: 'Klaviyo', domain: 'klaviyo.com' },
-      { company: 'Criteo AI', domain: 'criteo.com' },
-      { company: 'Braze', domain: 'braze.com' },
-      { company: 'Dentsu International', domain: 'dentsu.com' },
-      { company: 'Omnicom Media Group', domain: 'omnicomgroup.com' }
+      { company: 'InMobi AdTech', domain: 'inmobi.com', isIndianCompany: true },
+      { company: 'Adobe Experience India', domain: 'adobe.com/in' },
+      { company: 'HubSpot India', domain: 'hubspot.com' },
+      { company: 'Ogilvy India Digital', domain: 'ogilvy.in' },
+      { company: 'Publicis Sapient India', domain: 'publicissapient.com' },
+      { company: 'WPP Tech India', domain: 'wpp.com' },
+      { company: 'CleverTap Analytics', domain: 'clevertap.com', isIndianCompany: true },
+      { company: 'WebEngage Growth Tech', domain: 'webengage.com', isIndianCompany: true },
+      { company: 'Affle AdTech India', domain: 'affle.com', isIndianCompany: true },
+      { company: 'Dentsu India Digital', domain: 'dentsu.com' }
     ],
     'MNC Apprenticeships': [
-      { company: 'Google STEP & Apprenticeships', domain: 'buildyourfuture.withgoogle.com' },
-      { company: 'Microsoft LEAP Apprenticeship', domain: 'microsoft.com/leap' },
-      { company: 'IBM Technical Apprenticeship', domain: 'ibm.com' },
-      { company: 'Amazon Technical Apprenticeship', domain: 'amazon.jobs' },
-      { company: 'BMW Tech Academy', domain: 'bmwgroup.jobs' },
-      { company: 'Bosch Graduate & Apprentice Program', domain: 'bosch.com' },
-      { company: 'Siemens Tech Apprentice', domain: 'siemens.com' },
-      { company: 'Apple AI & Hardware Apprenticeship', domain: 'apple.com/careers' },
-      { company: 'Meta University & Apprenticeship', domain: 'metacareers.com' },
-      { company: 'Cisco Apprentice Network', domain: 'cisco.com' },
-      { company: 'Intel Early Career & Apprentice', domain: 'intel.com' },
-      { company: 'SAP Software Apprenticeship', domain: 'sap.com' }
+      { company: 'Google STEP & Apprentice (India)', domain: 'buildyourfuture.withgoogle.com' },
+      { company: 'Microsoft LEAP India', domain: 'microsoft.com/leap' },
+      { company: 'Amazon Technical Apprentice India', domain: 'amazon.jobs/en-in' },
+      { company: 'IBM Technical Apprenticeship India', domain: 'ibm.com/in-en' },
+      { company: 'Bosch India Graduate & Apprentice', domain: 'bosch.in' },
+      { company: 'Mercedes-Benz MBRDI Academy', domain: 'mbrdi.mercedes-benz.com' },
+      { company: 'Siemens Tech Apprentice India', domain: 'siemens.co.in' },
+      { company: 'Tata Tech Apprenticeship Program', domain: 'tatatechnologies.com', isIndianCompany: true },
+      { company: 'Cisco Apprentice India', domain: 'cisco.com/site/in' },
+      { company: 'Intel India Early Career Apprentice', domain: 'intel.in' }
     ],
     'FinTech & Banking': [
-      { company: 'Stripe Engine', domain: 'stripe.com' },
-      { company: 'Goldman Sachs Tech', domain: 'goldmansachs.com' },
-      { company: 'JPMorgan Chase AI Lab', domain: 'jpmorganchase.com' },
-      { company: 'Bloomberg LP Tech', domain: 'bloomberg.com' },
-      { company: 'Revolut', domain: 'revolut.com' },
-      { company: 'PayPal Engineering', domain: 'paypal.com' },
-      { company: 'Plaid', domain: 'plaid.com' },
-      { company: 'Brex Tech', domain: 'brex.com' },
-      { company: 'Robinhood Tech', domain: 'robinhood.com' },
-      { company: 'Square / Block', domain: 'block.xyz' },
-      { company: 'Morgan Stanley AI Tech', domain: 'morganstanley.com' },
-      { company: 'Visa Data Labs', domain: 'visa.com' }
+      { company: 'Razorpay Engineering', domain: 'razorpay.com', isIndianCompany: true },
+      { company: 'PhonePe Tech', domain: 'phonepe.com', isIndianCompany: true },
+      { company: 'Paytm AI & Payments', domain: 'paytm.com', isIndianCompany: true },
+      { company: 'Goldman Sachs India (Bengaluru)', domain: 'goldmansachs.com' },
+      { company: 'JPMorgan Chase India (Bengaluru/Hyd)', domain: 'jpmorganchase.com' },
+      { company: 'Stripe India', domain: 'stripe.com' },
+      { company: 'CRED FinTech', domain: 'cred.club', isIndianCompany: true },
+      { company: 'Zerodha Tech', domain: 'zerodha.com', isIndianCompany: true },
+      { company: 'Groww Tech Labs', domain: 'groww.in', isIndianCompany: true },
+      { company: 'Pine Labs AI', domain: 'pinelabs.com', isIndianCompany: true },
+      { company: 'Morgan Stanley India Tech', domain: 'morganstanley.com' },
+      { company: 'Barclays Global Service Centre India', domain: 'barclays.in' }
     ]
   };
 
@@ -94,7 +85,8 @@ const generate500Listings = (): JobListing[] => {
     applyType: 'Direct Apply' | 'Cold Mail';
     selectivity: 'Accessible' | 'Moderate' | 'High Competition';
     baseChance: number;
-    stipend: string;
+    stipendIndia: string;
+    stipendGlobal: string;
   }> = [
     {
       specialization: 'Agentic AI',
@@ -107,8 +99,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'High Competition',
-      baseChance: 68,
-      stipend: '$6,500 - $9,500 / mo'
+      baseChance: 72,
+      stipendIndia: '₹45,000 - ₹85,000 / mo',
+      stipendGlobal: '$6,500 - $9,500 / mo'
     },
     {
       specialization: 'Agentic AI',
@@ -120,8 +113,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Cold Mail',
       selectivity: 'Moderate',
-      baseChance: 78,
-      stipend: '$5,000 - $7,500 / mo'
+      baseChance: 82,
+      stipendIndia: '₹35,000 - ₹65,000 / mo',
+      stipendGlobal: '$5,000 - $7,500 / mo'
     },
     {
       specialization: 'Machine Learning',
@@ -134,8 +128,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'High Competition',
-      baseChance: 65,
-      stipend: '$6,000 - $9,000 / mo'
+      baseChance: 70,
+      stipendIndia: '₹40,000 - ₹75,000 / mo',
+      stipendGlobal: '$6,000 - $9,000 / mo'
     },
     {
       specialization: 'Machine Learning',
@@ -147,8 +142,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Cold Mail',
       selectivity: 'Moderate',
-      baseChance: 76,
-      stipend: '$4,800 - $7,000 / mo'
+      baseChance: 79,
+      stipendIndia: '₹30,000 - ₹60,000 / mo',
+      stipendGlobal: '$4,800 - $7,000 / mo'
     },
     {
       specialization: 'Data Analytics',
@@ -161,8 +157,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'Accessible',
-      baseChance: 85,
-      stipend: '$4,500 - $6,500 / mo'
+      baseChance: 88,
+      stipendIndia: '₹30,000 - ₹55,000 / mo',
+      stipendGlobal: '$4,500 - $6,500 / mo'
     },
     {
       specialization: 'Data Analytics',
@@ -174,8 +171,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Cold Mail',
       selectivity: 'Accessible',
-      baseChance: 88,
-      stipend: '$4,000 - $6,000 / mo'
+      baseChance: 90,
+      stipendIndia: '₹25,000 - ₹50,000 / mo',
+      stipendGlobal: '$4,000 - $6,000 / mo'
     },
     {
       specialization: 'Software Engineering',
@@ -188,8 +186,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'Moderate',
-      baseChance: 74,
-      stipend: '$5,000 - $8,000 / mo'
+      baseChance: 78,
+      stipendIndia: '₹35,000 - ₹70,000 / mo',
+      stipendGlobal: '$5,000 - $8,000 / mo'
     },
     {
       specialization: 'Cloud & DevOps',
@@ -201,46 +200,40 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'Moderate',
-      baseChance: 72,
-      stipend: '$5,200 - $7,800 / mo'
-    },
-    {
-      specialization: 'Cybersecurity',
-      titles: [
-        'Cybersecurity Operations Apprentice',
-        'Application Security Associate',
-        'Threat Analytics & Intelligence Intern'
-      ],
-      applyType: 'Cold Mail',
-      selectivity: 'Moderate',
-      baseChance: 75,
-      stipend: '$4,800 - $7,200 / mo'
+      baseChance: 76,
+      stipendIndia: '₹35,000 - ₹65,000 / mo',
+      stipendGlobal: '$5,200 - $7,800 / mo'
     }
   ];
 
-  const locations = [
+  // 70%+ Indian locations for heavy prioritization
+  const indianLocations = [
+    'Bengaluru (Bangalore), KA 🇮🇳',
+    'Hyderabad, TS 🇮🇳',
+    'Pune, MH 🇮🇳',
+    'Gurugram (Gurgaon) / NCR 🇮🇳',
+    'Noida / Delhi NCR 🇮🇳',
+    'Mumbai, MH 🇮🇳',
+    'Chennai, TN 🇮🇳',
+    'Remote (India) 🇮🇳'
+  ];
+
+  const globalLocations = [
     'Remote (US / Global)',
     'Hybrid - San Francisco, CA',
-    'Hybrid - New York, NY',
-    'Hybrid - Seattle, WA',
-    'Hybrid - Austin, TX',
-    'Hybrid - Munich, Germany',
     'Hybrid - London, UK',
-    'Hybrid - Bangalore, India',
-    'Hybrid - Boston, MA',
-    'Hybrid - Toronto, Canada'
+    'Hybrid - Munich, Germany'
   ];
 
   const hrContacts: Array<{ title: string; emailSuffix: string }> = [
-    { title: 'University Relations & Early Talent Recruiter', emailSuffix: 'careers' },
-    { title: 'Head of Tech Talent Acquisition', emailSuffix: 'talent' },
-    { title: 'Engineering Hiring Manager', emailSuffix: 'engineering' },
-    { title: 'AI & Data Apprenticeship Coordinator', emailSuffix: 'apprenticeship' }
+    { title: 'India University Relations & Early Talent Recruiter', emailSuffix: 'careers' },
+    { title: 'Head of India Tech Talent Acquisition', emailSuffix: 'talent.india' },
+    { title: 'India Engineering Hiring Manager', emailSuffix: 'engineering.in' },
+    { title: 'AI & Data Apprenticeship Coordinator (India)', emailSuffix: 'apprenticeship.in' }
   ];
 
   let idCounter = 1;
 
-  // Loop through industries to construct 520 distinct listings
   const industries: IndustryCategory[] = [
     'Tech & IT',
     'Automobile & Mobility',
@@ -249,23 +242,26 @@ const generate500Listings = (): JobListing[] => {
     'FinTech & Banking'
   ];
 
-  // Generate iterations until 520 items reached
   for (let cycle = 0; cycle < 11; cycle++) {
     for (const ind of industries) {
       const companyList = companiesByIndustry[ind];
       for (const compObj of companyList) {
-        if (listings.length >= 520) break;
+        if (listings.length >= 525) break;
 
         const roleTmpl = roleTemplates[(idCounter + cycle) % roleTemplates.length];
         const title = roleTmpl.titles[(idCounter + cycle) % roleTmpl.titles.length];
-        const location = locations[(idCounter + cycle) % locations.length];
+        
+        // 75% of roles assigned to Indian Tech Hubs
+        const isIndia = (idCounter % 4 !== 0) || compObj.isIndianCompany || compObj.company.includes('India');
+        const location = isIndia 
+          ? indianLocations[(idCounter + cycle) % indianLocations.length]
+          : globalLocations[(idCounter + cycle) % globalLocations.length];
+
         const hrObj = hrContacts[(idCounter + cycle) % hrContacts.length];
-
         const isDirect = roleTmpl.applyType === 'Direct Apply';
-        const hrEmail = `${hrObj.emailSuffix}@${compObj.domain}`;
+        const hrEmail = `${hrObj.emailSuffix}@${compObj.domain.replace('/en-in', '').replace('/in', '')}`;
 
-        // Cold mail template personalized for internship background
-        const emailTemplate = `Dear ${hrObj.title} Team at ${compObj.company},\n\nI hope this email finds you well. I am writing to express my enthusiastic interest in early career and apprenticeship opportunities in ${roleTmpl.specialization} (specifically for ${title}).\n\nHaving completed recent technical internship experience working with hands-on projects in Python, ${roleTmpl.specialization === 'Agentic AI' ? 'LLM Agent Frameworks, PyTorch,' : roleTmpl.specialization === 'Data Analytics' ? 'SQL, Pandas, Data Visualization,' : 'Machine Learning, Algorithms,'} and software development, I am eager to contribute to ${compObj.company}'s engineering initiatives.\n\nI have attached my resume for your review and would welcome the opportunity to discuss how my internship background aligns with your team's needs.\n\nBest regards,\n[Your Name]\n[Portfolio / GitHub Link]\n[LinkedIn Profile]`;
+        const emailTemplate = `Dear ${hrObj.title} Team at ${compObj.company},\n\nI hope this email finds you well. I am writing to express my enthusiastic interest in early career and apprenticeship opportunities in ${roleTmpl.specialization} (specifically for ${title} based in ${location}).\n\nHaving completed recent technical internship experience working with hands-on projects in Python, ${roleTmpl.specialization === 'Agentic AI' ? 'LLM Agent Frameworks, PyTorch,' : roleTmpl.specialization === 'Data Analytics' ? 'SQL, Pandas, Data Visualization,' : 'Machine Learning, Algorithms,'} and software development, I am eager to contribute to ${compObj.company}'s engineering initiatives in India.\n\nI have attached my resume for your review and would welcome the opportunity to discuss how my internship background aligns with your team's goals.\n\nBest regards,\n[Your Name]\n[Portfolio / GitHub Link]\n[LinkedIn Profile]`;
 
         listings.push({
           id: `job-${idCounter}`,
@@ -273,21 +269,22 @@ const generate500Listings = (): JobListing[] => {
           domain: compObj.domain,
           industry: ind,
           specialization: roleTmpl.specialization,
-          roleTitle: ind === 'MNC Apprenticeships' && !title.includes('Apprentice') ? `${title} (MNC Program)` : title,
+          roleTitle: ind === 'MNC Apprenticeships' && !title.includes('Apprentice') ? `${title} (India MNC Program)` : title,
           roleType: ind === 'MNC Apprenticeships' ? 'Apprenticeship' : (idCounter % 3 === 0 ? 'Internship' : 'Entry-Level'),
           location: location,
+          isIndiaRole: isIndia,
           workType: location.includes('Remote') ? 'Remote' : (idCounter % 2 === 0 ? 'Hybrid' : 'On-site'),
           applyMode: isDirect ? 'Direct Apply' : 'Cold Mail',
           directApplyLink: isDirect ? `https://${compObj.domain}/careers/apply?job=${idCounter}` : undefined,
           coldMailContact: !isDirect ? {
             hrTitle: hrObj.title,
             contactEmail: hrEmail,
-            suggestedSubject: `Application / Interest: ${title} - Internship Background`,
+            suggestedSubject: `Application / Interest: ${title} (${location}) - Internship Background`,
             emailBodyTemplate: emailTemplate
           } : undefined,
           baseSelectivity: roleTmpl.selectivity,
-          gettingInChanceScore: Math.min(96, Math.max(45, roleTmpl.baseChance + ((idCounter % 7) - 3))),
-          stipendOrSalary: roleTmpl.stipend,
+          gettingInChanceScore: isIndia ? Math.min(98, Math.max(50, roleTmpl.baseChance + 6)) : roleTmpl.baseChance,
+          stipendOrSalary: isIndia ? roleTmpl.stipendIndia : roleTmpl.stipendGlobal,
           postedDate: (idCounter % 5 === 0) ? 'Today' : `${(idCounter % 4) + 1} days ago`
         });
 
