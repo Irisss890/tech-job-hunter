@@ -2,7 +2,7 @@ import React from 'react';
 import type { IndustryCategory, Specialization, CompanyType } from '../types/job';
 import { Sparkles, Cpu, BarChart3, GraduationCap, Link, Mail, Globe, Flame, Building2, Zap, Layers } from 'lucide-react';
 
-export type RegionFilter = 'All' | 'National' | 'International';
+export type RegionFilter = 'All' | 'National' | 'Germany' | 'International';
 
 interface CategoryTabsProps {
   activeRegion: RegionFilter;
@@ -15,6 +15,7 @@ interface CategoryTabsProps {
   onSelectSpecialization: (spec: any) => void;
   countsByIndustry: Record<string, number>;
   nationalCount: number;
+  germanyCount: number;
   internationalCount: number;
   mncCount: number;
   ogStartupCount: number;
@@ -41,6 +42,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   onSelectSpecialization,
   countsByIndustry,
   nationalCount,
+  germanyCount,
   internationalCount,
   mncCount,
   ogStartupCount,
@@ -49,7 +51,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   return (
     <div style={{ marginBottom: '24px' }}>
       
-      {/* 🌟 TWO BIG OPTIONS: NATIONAL (INDIA) vs INTERNATIONAL (GLOBAL) */}
+      {/* 🌟 FEATURED REGIONAL SCOPE CARDS (INDIA vs GERMANY vs INTERNATIONAL) */}
       <div 
         className="glass-panel" 
         style={{
@@ -68,13 +70,13 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
             </strong>
           </div>
           <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-            Switch between National (India) and International (Global) career databases
+            Filter directly by National (India), Germany (Europe), or International (Global) hubs
           </span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
           
-          {/* BIG OPTION 1: NATIONAL (INDIA) */}
+          {/* OPTION 1: NATIONAL (INDIA) */}
           <button
             onClick={() => onSelectRegion('National')}
             style={{
@@ -87,7 +89,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 : '1px solid var(--border-glass)',
               boxShadow: activeRegion === 'National' ? '0 0 20px rgba(245, 158, 11, 0.35)' : 'none',
               borderRadius: 'var(--radius-md)',
-              padding: '16px 20px',
+              padding: '14px 16px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -96,14 +98,14 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               textAlign: 'left'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ fontSize: '1.8rem' }}>🇮🇳</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ fontSize: '1.6rem' }}>🇮🇳</div>
               <div>
-                <strong style={{ display: 'block', fontSize: '1.05rem', fontWeight: 800 }}>
+                <strong style={{ display: 'block', fontSize: '0.95rem', fontWeight: 800 }}>
                   NATIONAL (INDIA)
                 </strong>
-                <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>
-                  Bengaluru, Hyd, Pune, NCR &amp; MNC India R&amp;D
+                <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>
+                  Bengaluru, Hyd, Pune, NCR
                 </span>
               </div>
             </div>
@@ -112,16 +114,63 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 background: activeRegion === 'National' ? '#f59e0b' : 'rgba(255,255,255,0.08)',
                 color: activeRegion === 'National' ? '#0f172a' : 'var(--text-main)',
                 fontWeight: 800,
-                fontSize: '0.85rem',
-                padding: '4px 12px',
+                fontSize: '0.8rem',
+                padding: '3px 10px',
                 borderRadius: '9999px'
               }}
             >
-              {nationalCount} Roles
+              {nationalCount}
             </span>
           </button>
 
-          {/* BIG OPTION 2: INTERNATIONAL (GLOBAL) */}
+          {/* OPTION 2: GERMANY (EUROPE) */}
+          <button
+            onClick={() => onSelectRegion('Germany')}
+            style={{
+              background: activeRegion === 'Germany'
+                ? 'linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(245, 158, 11, 0.35) 100%)'
+                : 'rgba(255, 255, 255, 0.04)',
+              color: activeRegion === 'Germany' ? '#fca5a5' : 'var(--text-muted)',
+              border: activeRegion === 'Germany'
+                ? '2px solid #ef4444'
+                : '1px solid var(--border-glass)',
+              boxShadow: activeRegion === 'Germany' ? '0 0 20px rgba(239, 68, 68, 0.35)' : 'none',
+              borderRadius: 'var(--radius-md)',
+              padding: '14px 16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              transition: 'all 0.2s ease',
+              textAlign: 'left'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ fontSize: '1.6rem' }}>🇩🇪</div>
+              <div>
+                <strong style={{ display: 'block', fontSize: '0.95rem', fontWeight: 800 }}>
+                  GERMANY (EUROPE)
+                </strong>
+                <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>
+                  Munich, Berlin, Stuttgart, BMW, SAP
+                </span>
+              </div>
+            </div>
+            <span
+              style={{
+                background: activeRegion === 'Germany' ? '#ef4444' : 'rgba(255,255,255,0.08)',
+                color: activeRegion === 'Germany' ? '#ffffff' : 'var(--text-main)',
+                fontWeight: 800,
+                fontSize: '0.8rem',
+                padding: '3px 10px',
+                borderRadius: '9999px'
+              }}
+            >
+              {germanyCount}
+            </span>
+          </button>
+
+          {/* OPTION 3: INTERNATIONAL (GLOBAL) */}
           <button
             onClick={() => onSelectRegion('International')}
             style={{
@@ -134,7 +183,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 : '1px solid var(--border-glass)',
               boxShadow: activeRegion === 'International' ? '0 0 20px rgba(6, 182, 212, 0.35)' : 'none',
               borderRadius: 'var(--radius-md)',
-              padding: '16px 20px',
+              padding: '14px 16px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -143,14 +192,14 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               textAlign: 'left'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ fontSize: '1.8rem' }}>🌐</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ fontSize: '1.6rem' }}>🌐</div>
               <div>
-                <strong style={{ display: 'block', fontSize: '1.05rem', fontWeight: 800 }}>
+                <strong style={{ display: 'block', fontSize: '0.95rem', fontWeight: 800 }}>
                   INTERNATIONAL (GLOBAL)
                 </strong>
-                <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>
-                  US, UK, Europe, Remote Global &amp; Worldwide Hubs
+                <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>
+                  US, UK, Global Remote Hubs
                 </span>
               </div>
             </div>
@@ -159,16 +208,16 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 background: activeRegion === 'International' ? '#06b6d4' : 'rgba(255,255,255,0.08)',
                 color: activeRegion === 'International' ? '#0f172a' : 'var(--text-main)',
                 fontWeight: 800,
-                fontSize: '0.85rem',
-                padding: '4px 12px',
+                fontSize: '0.8rem',
+                padding: '3px 10px',
                 borderRadius: '9999px'
               }}
             >
-              {internationalCount} Roles
+              {internationalCount}
             </span>
           </button>
 
-          {/* OPTION 3: ALL OPPORTUNITIES */}
+          {/* OPTION 4: ALL OPPORTUNITIES */}
           <button
             onClick={() => onSelectRegion('All')}
             style={{
@@ -181,7 +230,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 : '1px solid var(--border-glass)',
               boxShadow: activeRegion === 'All' ? '0 0 20px rgba(99, 102, 241, 0.35)' : 'none',
               borderRadius: 'var(--radius-md)',
-              padding: '16px 20px',
+              padding: '14px 16px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -190,14 +239,14 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               textAlign: 'left'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ fontSize: '1.8rem' }}>✨</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ fontSize: '1.6rem' }}>✨</div>
               <div>
-                <strong style={{ display: 'block', fontSize: '1.05rem', fontWeight: 800 }}>
+                <strong style={{ display: 'block', fontSize: '0.95rem', fontWeight: 800 }}>
                   ALL OPPORTUNITIES
                 </strong>
-                <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>
-                  Combined National &amp; International Database
+                <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>
+                  Combined Global Database
                 </span>
               </div>
             </div>
@@ -206,19 +255,19 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 background: activeRegion === 'All' ? '#6366f1' : 'rgba(255,255,255,0.08)',
                 color: activeRegion === 'All' ? '#ffffff' : 'var(--text-main)',
                 fontWeight: 800,
-                fontSize: '0.85rem',
-                padding: '4px 12px',
+                fontSize: '0.8rem',
+                padding: '3px 10px',
                 borderRadius: '9999px'
               }}
             >
-              {nationalCount + internationalCount} Total
+              {nationalCount + germanyCount + internationalCount}
             </span>
           </button>
 
         </div>
       </div>
 
-      {/* 🏢 SEPARATE COMPANY TYPE SELECTOR BAR (MNCs vs Startups vs Growth) */}
+      {/* 🏢 COMPANY TYPE SELECTOR BAR */}
       <div 
         className="glass-panel" 
         style={{

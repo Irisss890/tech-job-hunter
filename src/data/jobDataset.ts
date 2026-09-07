@@ -2,6 +2,20 @@ import type { JobListing, IndustryCategory, Specialization, CompanyType } from '
 
 const getOfficialCareersUrl = (company: string, domain: string): string => {
   const compLower = company.toLowerCase();
+  if (compLower.includes('bmw')) return 'https://www.bmwgroup.jobs/de/de.html';
+  if (compLower.includes('mercedes')) return 'https://group.mercedes-benz.com/karriere/';
+  if (compLower.includes('porsche')) return 'https://newsroom.porsche.com/en/company/porsche-digital.html';
+  if (compLower.includes('volkswagen') || compLower.includes('cariad')) return 'https://cariad.technology/global/en/careers.html';
+  if (compLower.includes('bosch')) return 'https://www.bosch.de/karriere/';
+  if (compLower.includes('siemens')) return 'https://jobs.siemens.com/jobs';
+  if (compLower.includes('sap')) return 'https://jobs.sap.com/';
+  if (compLower.includes('zalando')) return 'https://jobs.zalando.com/';
+  if (compLower.includes('personio')) return 'https://www.personio.com/careers/';
+  if (compLower.includes('n26')) return 'https://n26.com/en-de/careers';
+  if (compLower.includes('delivery hero')) return 'https://careers.deliveryhero.com/';
+  if (compLower.includes('celonis')) return 'https://www.celonis.com/careers/';
+  if (compLower.includes('deepl')) return 'https://www.deepl.com/en/careers';
+
   if (compLower.includes('google')) return 'https://buildyourfuture.withgoogle.com/jobs';
   if (compLower.includes('microsoft')) return 'https://careers.microsoft.com';
   if (compLower.includes('amazon')) return 'https://www.amazon.jobs/en-in';
@@ -12,25 +26,10 @@ const getOfficialCareersUrl = (company: string, domain: string): string => {
   if (compLower.includes('postman')) return 'https://www.postman.com/careers/';
   if (compLower.includes('browserstack')) return 'https://www.browserstack.com/careers';
   if (compLower.includes('hasura')) return 'https://hasura.io/careers/';
-  if (compLower.includes('freshworks')) return 'https://www.freshworks.com/careers/';
-  if (compLower.includes('zoho')) return 'https://www.zoho.com/careers/';
   if (compLower.includes('swiggy')) return 'https://careers.swiggy.com/';
   if (compLower.includes('zomato')) return 'https://www.zomato.com/careers';
   if (compLower.includes('flipkart')) return 'https://www.flipkartcareers.com/';
   if (compLower.includes('razorpay')) return 'https://razorpay.com/jobs/';
-  if (compLower.includes('cred')) return 'https://cred.club/careers';
-  if (compLower.includes('phonepe')) return 'https://www.phonepe.com/careers/';
-  if (compLower.includes('zerodha')) return 'https://zerodha.com/careers';
-  if (compLower.includes('groww')) return 'https://groww.in/careers';
-  if (compLower.includes('tata motors')) return 'https://www.tatamotors.com/careers/';
-  if (compLower.includes('mercedes') || compLower.includes('mbrdi')) return 'https://mbrdi.mercedes-benz.com/careers/';
-  if (compLower.includes('bmw')) return 'https://www.bmwgroup.jobs';
-  if (compLower.includes('bosch')) return 'https://www.bosch.in/careers/';
-  if (compLower.includes('uber')) return 'https://www.uber.com/us/en/careers/';
-  if (compLower.includes('spotify')) return 'https://www.lifeatspotify.com/';
-  if (compLower.includes('stripe')) return 'https://stripe.com/jobs';
-  if (compLower.includes('goldman')) return 'https://www.goldmansachs.com/careers/';
-  if (compLower.includes('jpmorgan')) return 'https://careers.jpmorganchase.com/';
 
   return `https://${domain}/careers`;
 };
@@ -38,68 +37,84 @@ const getOfficialCareersUrl = (company: string, domain: string): string => {
 const generate500Listings = (): JobListing[] => {
   const listings: JobListing[] = [];
 
-  const companiesByIndustry: Record<IndustryCategory, Array<{ company: string; domain: string; companyType: CompanyType; isIndianCompany?: boolean }>> = {
+  const companiesByIndustry: Record<IndustryCategory, Array<{ company: string; domain: string; companyType: CompanyType; isIndianCompany?: boolean; isGermanCompany?: boolean }>> = {
     'Tech & IT': [
-      // MNC Giants
+      // 🇩🇪 Germany Tech Giants & Unicorns
+      { company: 'SAP SE (Germany)', domain: 'sap.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Siemens AG (Munich)', domain: 'siemens.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Zalando Tech (Berlin)', domain: 'zalando.com', companyType: 'OG Startup', isGermanCompany: true },
+      { company: 'Personio HR Tech (Munich)', domain: 'personio.com', companyType: 'OG Startup', isGermanCompany: true },
+      { company: 'DeepL AI (Cologne / Remote Germany)', domain: 'deepl.com', companyType: 'OG Startup', isGermanCompany: true },
+      { company: 'Celonis Data Mining (Munich)', domain: 'celonis.com', companyType: 'OG Startup', isGermanCompany: true },
+      { company: 'Delivery Hero (Berlin)', domain: 'deliveryhero.com', companyType: 'OG Startup', isGermanCompany: true },
+
+      // 🇮🇳 Indian Tech Giants & Startups
       { company: 'Google India', domain: 'google.co.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'Microsoft India', domain: 'microsoft.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'Amazon India Tech', domain: 'amazon.jobs', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'Nvidia India R&D', domain: 'nvidia.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'Adobe India', domain: 'adobe.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'Oracle India', domain: 'oracle.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-
-      // OG Startups
       { company: 'Postman', domain: 'postman.com', companyType: 'OG Startup', isIndianCompany: true },
       { company: 'BrowserStack', domain: 'browserstack.com', companyType: 'OG Startup', isIndianCompany: true },
       { company: 'Hasura AI', domain: 'hasura.io', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'Freshworks Tech', domain: 'freshworks.com', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'Zoho Corporation', domain: 'zoho.com', companyType: 'OG Startup', isIndianCompany: true },
       { company: 'Swiggy AI Labs', domain: 'swiggy.com', companyType: 'OG Startup', isIndianCompany: true },
       { company: 'Zomato AI & Data', domain: 'zomato.com', companyType: 'OG Startup', isIndianCompany: true },
       { company: 'Flipkart Engineering', domain: 'flipkart.com', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'CRED Engineering', domain: 'cred.club', companyType: 'OG Startup', isIndianCompany: true },
+
+      // 🌐 Global Tech
       { company: 'OpenAI', domain: 'openai.com', companyType: 'OG Startup' },
       { company: 'Anthropic AI', domain: 'anthropic.com', companyType: 'OG Startup' },
       { company: 'Scale AI', domain: 'scale.com', companyType: 'OG Startup' },
-      { company: 'Vercel', domain: 'vercel.com', companyType: 'OG Startup' },
-      { company: 'Supabase', domain: 'supabase.com', companyType: 'OG Startup' },
-      { company: 'Perplexity AI', domain: 'perplexity.ai', companyType: 'OG Startup' },
-
-      // Growth Tech
-      { company: 'Persistent Systems', domain: 'persistent.com', companyType: 'Growth Tech', isIndianCompany: true },
-      { company: 'LTI Mindtree AI', domain: 'ltimindtree.com', companyType: 'Growth Tech', isIndianCompany: true }
+      { company: 'Vercel', domain: 'vercel.com', companyType: 'OG Startup' }
     ],
     'Automobile & Mobility': [
-      { company: 'Mercedes-Benz R&D India (MBRDI)', domain: 'mbrdi.mercedes-benz.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'BMW TechWorks India', domain: 'bmwgroup.jobs', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'Robert Bosch India (RBAI)', domain: 'bosch.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      // 🇩🇪 Germany Automobile & Mobility Leaders
+      { company: 'BMW Group (Munich, Germany)', domain: 'bmwgroup.jobs', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Mercedes-Benz Tech (Stuttgart, Germany)', domain: 'mercedes-benz.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Porsche Digital (Stuttgart, Germany)', domain: 'porsche.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Volkswagen Cariad AI (Wolfsburg / Berlin)', domain: 'cariad.technology', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Robert Bosch GmbH (Stuttgart / Abstatt)', domain: 'bosch.de', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Continental Automotive (Frankfurt, Germany)', domain: 'continental.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'FlixBus Mobility Tech (Munich)', domain: 'flixbus.com', companyType: 'OG Startup', isGermanCompany: true },
+
+      // 🇮🇳 Indian Automobile Leaders
+      { company: 'Mercedes-Benz R&D India (MBRDI Bengaluru)', domain: 'mbrdi.mercedes-benz.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'BMW TechWorks India (Pune)', domain: 'bmwgroup.jobs', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'Tata Motors EV & AI', domain: 'tatamotors.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'Mahindra Tech & Mobility', domain: 'mahindra.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'Ather Energy AI', domain: 'atherenergy.com', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'Ola Electric Mobility', domain: 'olaelectric.com', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'Tesla Tech', domain: 'tesla.com', companyType: 'MNC / Enterprise' }
+      { company: 'Ather Energy AI', domain: 'atherenergy.com', companyType: 'OG Startup', isIndianCompany: true }
     ],
     'Marketing & AdTech': [
+      { company: 'Zalando Marketing Tech (Berlin)', domain: 'zalando.com', companyType: 'OG Startup', isGermanCompany: true },
+      { company: 'Adobe Germany (Munich)', domain: 'adobe.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
       { company: 'Adobe Experience India', domain: 'adobe.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'Ogilvy India Digital', domain: 'ogilvy.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'CleverTap Analytics', domain: 'clevertap.com', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'WebEngage Growth Tech', domain: 'webengage.com', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'InMobi AdTech', domain: 'inmobi.com', companyType: 'Growth Tech', isIndianCompany: true }
+      { company: 'HubSpot Global', domain: 'hubspot.com', companyType: 'OG Startup' }
     ],
     'MNC Apprenticeships': [
+      // 🇩🇪 Germany Apprenticeship & Graduate Programs (Ausbildung & Trainee)
+      { company: 'BMW Tech Trainee & Apprentice (Munich)', domain: 'bmwgroup.jobs', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Mercedes-Benz Tech Academy (Stuttgart)', domain: 'mercedes-benz.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Bosch Germany Graduate Program (Stuttgart)', domain: 'bosch.de', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'Siemens Tech Apprentice (Erlangen / Munich)', domain: 'siemens.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+      { company: 'SAP Graduate & Apprentice (Walldorf)', domain: 'sap.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+
+      // 🇮🇳 Indian Apprenticeship Programs
       { company: 'Google STEP & Apprentice (India)', domain: 'buildyourfuture.withgoogle.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'Microsoft LEAP India', domain: 'microsoft.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
       { company: 'Amazon Technical Apprentice India', domain: 'amazon.jobs', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'IBM Technical Apprenticeship India', domain: 'ibm.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'Bosch India Graduate & Apprentice', domain: 'bosch.in', companyType: 'MNC / Enterprise', isIndianCompany: true }
+      { company: 'IBM Technical Apprenticeship India', domain: 'ibm.com', companyType: 'MNC / Enterprise', isIndianCompany: true }
     ],
     'FinTech & Banking': [
+      // 🇩🇪 Germany FinTech Leaders
+      { company: 'N26 Mobile Banking (Berlin)', domain: 'n26.com', companyType: 'OG Startup', isGermanCompany: true },
+      { company: 'Trade Republic (Berlin)', domain: 'traderepublic.com', companyType: 'OG Startup', isGermanCompany: true },
+      { company: 'Deutsche Bank Tech (Frankfurt)', domain: 'db.com', companyType: 'MNC / Enterprise', isGermanCompany: true },
+
+      // 🇮🇳 Indian FinTech
       { company: 'Razorpay Engineering', domain: 'razorpay.com', companyType: 'OG Startup', isIndianCompany: true },
       { company: 'PhonePe Tech', domain: 'phonepe.com', companyType: 'OG Startup', isIndianCompany: true },
       { company: 'Zerodha Tech', domain: 'zerodha.com', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'Groww Tech Labs', domain: 'groww.in', companyType: 'OG Startup', isIndianCompany: true },
-      { company: 'Goldman Sachs India (Bengaluru)', domain: 'goldmansachs.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
-      { company: 'JPMorgan Chase India (Bengaluru/Hyd)', domain: 'jpmorganchase.com', companyType: 'MNC / Enterprise', isIndianCompany: true }
+      { company: 'Goldman Sachs India', domain: 'goldmansachs.com', companyType: 'MNC / Enterprise', isIndianCompany: true }
     ]
   };
 
@@ -110,12 +125,13 @@ const generate500Listings = (): JobListing[] => {
     selectivity: 'Accessible' | 'Moderate' | 'High Competition';
     baseChance: number;
     stipendIndia: string;
+    stipendGermany: string;
     stipendGlobal: string;
   }> = [
     {
       specialization: 'Agentic AI',
       titles: [
-        'Agentic AI Systems Associate',
+        'Agentic AI Systems Engineer',
         'LLM & Multi-Agent Workflow Developer',
         'AI Agent Tool Integration Engineer',
         'Autonomous Agent Research Apprentice',
@@ -123,8 +139,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'High Competition',
-      baseChance: 75,
+      baseChance: 76,
       stipendIndia: '₹50,000 - ₹90,000 / mo',
+      stipendGermany: '€4,800 - €7,500 / mo',
       stipendGlobal: '$6,500 - $9,500 / mo'
     },
     {
@@ -137,8 +154,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Cold Mail',
       selectivity: 'Moderate',
-      baseChance: 84,
+      baseChance: 85,
       stipendIndia: '₹40,000 - ₹70,000 / mo',
+      stipendGermany: '€3,800 - €5,800 / mo',
       stipendGlobal: '$5,000 - $7,500 / mo'
     },
     {
@@ -152,8 +170,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'High Competition',
-      baseChance: 72,
+      baseChance: 74,
       stipendIndia: '₹45,000 - ₹80,000 / mo',
+      stipendGermany: '€4,200 - €6,800 / mo',
       stipendGlobal: '$6,000 - $9,000 / mo'
     },
     {
@@ -166,8 +185,9 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Cold Mail',
       selectivity: 'Moderate',
-      baseChance: 80,
+      baseChance: 82,
       stipendIndia: '₹35,000 - ₹65,000 / mo',
+      stipendGermany: '€3,500 - €5,200 / mo',
       stipendGlobal: '$4,800 - $7,000 / mo'
     },
     {
@@ -181,23 +201,10 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'Accessible',
-      baseChance: 89,
+      baseChance: 90,
       stipendIndia: '₹35,000 - ₹60,000 / mo',
+      stipendGermany: '€3,200 - €5,000 / mo',
       stipendGlobal: '$4,500 - $6,500 / mo'
-    },
-    {
-      specialization: 'Data Analytics',
-      titles: [
-        'Junior Data Analyst',
-        'Marketing Data Analytics Associate',
-        'Telemetry & Dashboard Specialist',
-        'Analytics & Insights Trainee'
-      ],
-      applyType: 'Cold Mail',
-      selectivity: 'Accessible',
-      baseChance: 92,
-      stipendIndia: '₹30,000 - ₹55,000 / mo',
-      stipendGlobal: '$4,000 - $6,000 / mo'
     },
     {
       specialization: 'Software Engineering',
@@ -210,23 +217,10 @@ const generate500Listings = (): JobListing[] => {
       ],
       applyType: 'Direct Apply',
       selectivity: 'Moderate',
-      baseChance: 80,
+      baseChance: 82,
       stipendIndia: '₹40,000 - ₹75,000 / mo',
+      stipendGermany: '€3,800 - €6,000 / mo',
       stipendGlobal: '$5,000 - $8,000 / mo'
-    },
-    {
-      specialization: 'Cloud & DevOps',
-      titles: [
-        'Cloud Infrastructure Apprentice',
-        'DevOps & Automation Associate',
-        'Site Reliability Engineering Intern',
-        'Kubernetes & Cloud Systems Trainee'
-      ],
-      applyType: 'Direct Apply',
-      selectivity: 'Moderate',
-      baseChance: 78,
-      stipendIndia: '₹38,000 - ₹70,000 / mo',
-      stipendGlobal: '$5,200 - $7,800 / mo'
     }
   ];
 
@@ -241,11 +235,23 @@ const generate500Listings = (): JobListing[] => {
     'Remote (India) 🇮🇳'
   ];
 
+  const germanyLocations = [
+    'Munich (München), Bavaria 🇩🇪',
+    'Berlin, Germany 🇩🇪',
+    'Stuttgart, Baden-Württemberg 🇩🇪',
+    'Frankfurt am Main, Hesse 🇩🇪',
+    'Hamburg, Germany 🇩🇪',
+    'Wolfsburg, Lower Saxony 🇩🇪',
+    'Cologne (Köln), NRW 🇩🇪',
+    'Walldorf / Heidelberg 🇩🇪',
+    'Remote (Germany) 🇩🇪'
+  ];
+
   const globalLocations = [
     'Remote (US / Global)',
     'Hybrid - San Francisco, CA',
     'Hybrid - London, UK',
-    'Hybrid - Munich, Germany'
+    'Hybrid - Toronto, Canada'
   ];
 
   const hrContacts: Array<{ title: string; emailSuffix: string }> = [
@@ -265,23 +271,37 @@ const generate500Listings = (): JobListing[] => {
     'FinTech & Banking'
   ];
 
-  for (let cycle = 0; cycle < 14; cycle++) {
+  for (let cycle = 0; cycle < 15; cycle++) {
     for (const ind of industries) {
       const companyList = companiesByIndustry[ind];
       for (const compObj of companyList) {
-        if (listings.length >= 530) break;
+        if (listings.length >= 540) break;
 
         const roleTmpl = roleTemplates[(idCounter + cycle) % roleTemplates.length];
         const title = roleTmpl.titles[(idCounter + cycle) % roleTmpl.titles.length];
 
-        const isIndia = (idCounter % 4 !== 0) || compObj.isIndianCompany || compObj.company.includes('India');
-        const location = isIndia 
-          ? indianLocations[(idCounter + cycle) % indianLocations.length]
-          : globalLocations[(idCounter + cycle) % globalLocations.length];
+        // Determine Region: Germany vs India vs Global
+        let isGermany = false;
+        let isIndia = false;
+        let location = '';
+        let stipend = '';
+
+        if (compObj.isGermanCompany || (idCounter % 3 === 0)) {
+          isGermany = true;
+          location = germanyLocations[(idCounter + cycle) % germanyLocations.length];
+          stipend = roleTmpl.stipendGermany;
+        } else if (compObj.isIndianCompany || (idCounter % 2 === 0)) {
+          isIndia = true;
+          location = indianLocations[(idCounter + cycle) % indianLocations.length];
+          stipend = roleTmpl.stipendIndia;
+        } else {
+          location = globalLocations[(idCounter + cycle) % globalLocations.length];
+          stipend = roleTmpl.stipendGlobal;
+        }
 
         const hrObj = hrContacts[(idCounter + cycle) % hrContacts.length];
         const isDirect = roleTmpl.applyType === 'Direct Apply';
-        const cleanDomain = compObj.domain.replace('/en-in', '').replace('/in', '');
+        const cleanDomain = compObj.domain.replace('/de', '').replace('/en', '');
         const hrEmail = `${hrObj.emailSuffix}@${cleanDomain}`;
 
         const directLink = getOfficialCareersUrl(compObj.company, compObj.domain);
@@ -295,10 +315,11 @@ const generate500Listings = (): JobListing[] => {
           companyType: compObj.companyType,
           industry: ind,
           specialization: roleTmpl.specialization,
-          roleTitle: ind === 'MNC Apprenticeships' && !title.includes('Apprentice') ? `${title} (MNC Program)` : title,
+          roleTitle: ind === 'MNC Apprenticeships' && !title.includes('Apprentice') ? `${title} (Trainee/Apprentice Program)` : title,
           roleType: ind === 'MNC Apprenticeships' ? 'Apprenticeship' : (idCounter % 3 === 0 ? 'Internship' : 'Entry-Level'),
           location: location,
           isIndiaRole: isIndia,
+          isGermanyRole: isGermany,
           workType: location.includes('Remote') ? 'Remote' : (idCounter % 2 === 0 ? 'Hybrid' : 'On-site'),
           applyMode: isDirect ? 'Direct Apply' : 'Cold Mail',
           directApplyLink: directLink,
@@ -309,8 +330,8 @@ const generate500Listings = (): JobListing[] => {
             emailBodyTemplate: emailTemplate
           } : undefined,
           baseSelectivity: roleTmpl.selectivity,
-          gettingInChanceScore: isIndia ? Math.min(98, Math.max(50, roleTmpl.baseChance + 6)) : roleTmpl.baseChance,
-          stipendOrSalary: isIndia ? roleTmpl.stipendIndia : roleTmpl.stipendGlobal,
+          gettingInChanceScore: (isIndia || isGermany) ? Math.min(98, Math.max(50, roleTmpl.baseChance + 6)) : roleTmpl.baseChance,
+          stipendOrSalary: stipend,
           postedDate: (idCounter % 5 === 0) ? 'Today' : `${(idCounter % 4) + 1} days ago`
         });
 

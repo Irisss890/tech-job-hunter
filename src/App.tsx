@@ -40,10 +40,10 @@ export const App: React.FC = () => {
   // Trigger Hunt scanner effect
   const handleTriggerHunt = () => {
     setIsHunting(true);
-    setHuntPhaseText('Scanning MNCs & OG Startup portals...');
+    setHuntPhaseText('Scanning Germany, India & Global portals...');
 
     setTimeout(() => {
-      setHuntPhaseText('Filtering Indian & Global tech hubs...');
+      setHuntPhaseText('Filtering Munich, Berlin, Stuttgart & Indian hubs...');
     }, 800);
 
     setTimeout(() => {
@@ -56,27 +56,34 @@ export const App: React.FC = () => {
     }, 2400);
   };
 
-  // Compute counts for National vs International, Industries, and Company Types
-  const { countsByIndustry, nationalCount, internationalCount, mncCount, ogStartupCount, growthTechCount } = useMemo(() => {
+  // Compute counts for National (India), Germany, International, Industries, and Company Types
+  const { countsByIndustry, nationalCount, germanyCount, internationalCount, mncCount, ogStartupCount, growthTechCount } = useMemo(() => {
     const counts: Record<string, number> = { All: 0 };
     let natCount = 0;
+    let gerCount = 0;
     let intCount = 0;
+
     let mnc = 0;
     let og = 0;
     let growth = 0;
 
     JOB_DATASET.forEach(item => {
-      if (item.isIndiaRole) {
+      if (item.isGermanyRole) {
+        gerCount++;
+      } else if (item.isIndiaRole) {
         natCount++;
       } else {
         intCount++;
       }
 
-      if (
+      // Filter count according to active region scope
+      const matchesRegion =
         activeRegion === 'All' ||
         (activeRegion === 'National' && item.isIndiaRole) ||
-        (activeRegion === 'International' && !item.isIndiaRole)
-      ) {
+        (activeRegion === 'Germany' && item.isGermanyRole) ||
+        (activeRegion === 'International' && !item.isIndiaRole && !item.isGermanyRole);
+
+      if (matchesRegion) {
         counts['All'] = (counts['All'] || 0) + 1;
         counts[item.industry] = (counts[item.industry] || 0) + 1;
 
@@ -89,6 +96,7 @@ export const App: React.FC = () => {
     return {
       countsByIndustry: counts,
       nationalCount: natCount,
+      germanyCount: gerCount,
       internationalCount: intCount,
       mncCount: mnc,
       ogStartupCount: og,
@@ -99,11 +107,14 @@ export const App: React.FC = () => {
   // Filtered listings computation
   const filteredListings = useMemo(() => {
     const list = JOB_DATASET.filter(item => {
-      // 1. REGIONAL SCOPE FILTER (NATIONAL vs INTERNATIONAL)
+      // 1. REGIONAL SCOPE FILTER (NATIONAL vs GERMANY vs INTERNATIONAL)
       if (activeRegion === 'National' && !item.isIndiaRole) {
         return false;
       }
-      if (activeRegion === 'International' && item.isIndiaRole) {
+      if (activeRegion === 'Germany' && !item.isGermanyRole) {
+        return false;
+      }
+      if (activeRegion === 'International' && (item.isIndiaRole || item.isGermanyRole)) {
         return false;
       }
 
@@ -175,7 +186,7 @@ export const App: React.FC = () => {
         filteredCount={filteredListings.length}
       />
 
-      {/* Regional Switcher, Company Type Filter Bar, & Category Tabs */}
+      {/* Regional Scope Cards (Germany, India, Global), Company Type Filter Bar, & Category Tabs */}
       <CategoryTabs
         activeRegion={activeRegion}
         onSelectRegion={setActiveRegion}
@@ -187,6 +198,7 @@ export const App: React.FC = () => {
         onSelectSpecialization={setActiveSpecialization}
         countsByIndustry={countsByIndustry}
         nationalCount={nationalCount}
+        germanyCount={germanyCount}
         internationalCount={internationalCount}
         mncCount={mncCount}
         ogStartupCount={ogStartupCount}

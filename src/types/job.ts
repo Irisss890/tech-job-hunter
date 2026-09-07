@@ -33,6 +33,7 @@ export interface JobListing {
   roleType: 'Entry-Level' | 'Apprenticeship' | 'Internship' | 'Junior (1-2 YOE)';
   location: string;
   isIndiaRole: boolean;
+  isGermanyRole: boolean;
   workType: 'Remote' | 'Hybrid' | 'On-site';
   applyMode: 'Direct Apply' | 'Cold Mail';
   directApplyLink?: string;
