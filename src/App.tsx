@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { CandidateProfile } from './components/CandidateProfile';
 import { HuntControlPanel } from './components/HuntControlPanel';
 import { CategoryTabs } from './components/CategoryTabs';
+import type { RegionFilter } from './components/CategoryTabs';
 import { SpreadsheetGrid } from './components/SpreadsheetGrid';
 import { ColdMailDrawer } from './components/ColdMailDrawer';
 
@@ -11,9 +12,10 @@ import type { IndustryCategory, Specialization, JobListing } from './types/job';
 import { exportToGoogleSheetsCSV } from './utils/csvExporter';
 
 export const App: React.FC = () => {
+  const [activeRegion, setActiveRegion] = useState<RegionFilter>('National');
   const [activeCategory, setActiveCategory] = useState<IndustryCategory | 'All'>('All');
   const [activeSpecialization, setActiveSpecialization] = useState<
-    Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail' | 'India Only'
+    Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail'
   >('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSkills, setSelectedSkills] = useState<string[]>([
@@ -35,10 +37,10 @@ export const App: React.FC = () => {
   // Trigger Hunt scanner effect
   const handleTriggerHunt = () => {
     setIsHunting(true);
-    setHuntPhaseText('Scanning Indian & Global portals...');
+    setHuntPhaseText('Scanning National & International portals...');
 
     setTimeout(() => {
-      setHuntPhaseText('Prioritizing Bengaluru, Hyd & NCR roles...');
+      setHuntPhaseText('Filtering Indian & Global tech hubs...');
     }, 800);
 
     setTimeout(() => {
@@ -51,30 +53,57 @@ export const App: React.FC = () => {
     }, 2400);
   };
 
-  // Industry count computation & India count
-  const { countsByIndustry, indiaCount } = useMemo(() => {
-    const counts: Record<string, number> = { All: JOB_DATASET.length };
-    let countIn = 0;
-    JOB_DATASET.forEach(item => {
-      counts[item.industry] = (counts[item.industry] || 0) + 1;
-      if (item.isIndiaRole) countIn++;
-    });
-    return { countsByIndustry: counts, indiaCount: countIn };
-  }, []);
+  // Compute counts for National vs International & Industries
+  const { countsByIndustry, nationalCount, internationalCount } = useMemo(() => {
+    const counts: Record<string, number> = { All: 0 };
+    let natCount = 0;
+    let intCount = 0;
 
-  // Filtered listings computation prioritizing Indian roles
+    JOB_DATASET.forEach(item => {
+      // Count region
+      if (item.isIndiaRole) {
+        natCount++;
+      } else {
+        intCount++;
+      }
+
+      // Count industry based on active region filter
+      if (
+        activeRegion === 'All' ||
+        (activeRegion === 'National' && item.isIndiaRole) ||
+        (activeRegion === 'International' && !item.isIndiaRole)
+      ) {
+        counts['All'] = (counts['All'] || 0) + 1;
+        counts[item.industry] = (counts[item.industry] || 0) + 1;
+      }
+    });
+
+    return {
+      countsByIndustry: counts,
+      nationalCount: natCount,
+      internationalCount: intCount
+    };
+  }, [activeRegion]);
+
+  // Filtered listings computation
   const filteredListings = useMemo(() => {
     const list = JOB_DATASET.filter(item => {
-      // Category filter
+      // 1. REGIONAL SCOPE FILTER (NATIONAL vs INTERNATIONAL)
+      if (activeRegion === 'National' && !item.isIndiaRole) {
+        return false;
+      }
+      if (activeRegion === 'International' && item.isIndiaRole) {
+        return false;
+      }
+
+      // 2. CATEGORY FILTER
       if (activeCategory !== 'All' && item.industry !== activeCategory) {
         return false;
       }
 
-      // Specialization / Highlight filter
+      // 3. SPECIALIZATION FILTER
       if (activeSpecialization !== 'All') {
-        if (activeSpecialization === 'India Only') {
-          if (!item.isIndiaRole) return false;
-        } else if (activeSpecialization === 'MNC Apprenticeships') {
+        if (activeSpecialization === 'MNC Apprenticeships') {
           if (item.industry !== 'MNC Apprenticeships') return false;
         } else if (activeSpecialization === 'Direct Apply') {
           if (item.applyMode !== 'Direct Apply') return false;
@@ -85,7 +114,7 @@ export const App: React.FC = () => {
         }
       }
 
-      // Search Query filter
+      // 4. SEARCH QUERY FILTER
       if (searchQuery.trim() !== '') {
         const q = searchQuery.toLowerCase();
         const matchesComp = item.company.toLowerCase().includes(q);
@@ -99,13 +128,8 @@ export const App: React.FC = () => {
       return true;
     });
 
-    // Prioritize Indian roles at top when sorting
-    return list.sort((a, b) => {
-      if (a.isIndiaRole && !b.isIndiaRole) return -1;
-      if (!a.isIndiaRole && b.isIndiaRole) return 1;
-      return 0;
-    });
-  }, [activeCategory, activeSpecialization, searchQuery]);
+    return list;
+  }, [activeRegion, activeCategory, activeSpecialization, searchQuery]);
 
   // Export CSV handler
   const handleExportCSV = () => {
@@ -134,14 +158,17 @@ export const App: React.FC = () => {
         filteredCount={filteredListings.length}
       />
 
-      {/* Category Tabs & Specialization Chips */}
+      {/* TWO BIG OPTIONS: NATIONAL vs INTERNATIONAL & Category Tabs */}
       <CategoryTabs
+        activeRegion={activeRegion}
+        onSelectRegion={setActiveRegion}
         activeIndustry={activeCategory}
         onSelectIndustry={setActiveCategory}
         activeSpecialization={activeSpecialization}
         onSelectSpecialization={setActiveSpecialization}
         countsByIndustry={countsByIndustry}
-        indiaCount={indiaCount}
+        nationalCount={nationalCount}
+        internationalCount={internationalCount}
       />
 
       {/* Interactive Spreadsheet Data Grid */}
