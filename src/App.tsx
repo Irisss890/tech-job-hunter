@@ -6,6 +6,7 @@ import { CategoryTabs } from './components/CategoryTabs';
 import type { RegionFilter } from './components/CategoryTabs';
 import { SpreadsheetGrid } from './components/SpreadsheetGrid';
 import { ColdMailDrawer } from './components/ColdMailDrawer';
+import { DirectApplyModal } from './components/DirectApplyModal';
 
 import { JOB_DATASET } from './data/jobDataset';
 import type { IndustryCategory, Specialization, CompanyType, JobListing } from './types/job';
@@ -27,6 +28,7 @@ export const App: React.FC = () => {
   const [isHunting, setIsHunting] = useState<boolean>(false);
   const [huntPhaseText, setHuntPhaseText] = useState<string>('HUNT 500+ JOBS');
   const [coldMailListing, setColdMailListing] = useState<JobListing | null>(null);
+  const [directApplyListing, setDirectApplyListing] = useState<JobListing | null>(null);
 
   // Skill toggle handler
   const handleToggleSkill = (skill: string) => {
@@ -64,14 +66,12 @@ export const App: React.FC = () => {
     let growth = 0;
 
     JOB_DATASET.forEach(item => {
-      // Count region
       if (item.isIndiaRole) {
         natCount++;
       } else {
         intCount++;
       }
 
-      // Filter count according to active region scope
       if (
         activeRegion === 'All' ||
         (activeRegion === 'National' && item.isIndiaRole) ||
@@ -193,17 +193,24 @@ export const App: React.FC = () => {
         growthTechCount={growthTechCount}
       />
 
-      {/* Interactive Spreadsheet Data Grid with Company Type Column */}
+      {/* Interactive Spreadsheet Data Grid */}
       <SpreadsheetGrid
         listings={filteredListings}
         selectedSkills={selectedSkills}
         onOpenColdMail={setColdMailListing}
+        onOpenDirectApply={setDirectApplyListing}
       />
 
       {/* Cold Mail Drawer */}
       <ColdMailDrawer
         listing={coldMailListing}
         onClose={() => setColdMailListing(null)}
+      />
+
+      {/* Direct Apply Portal Modal */}
+      <DirectApplyModal
+        listing={directApplyListing}
+        onClose={() => setDirectApplyListing(null)}
       />
     </div>
   );

@@ -7,6 +7,7 @@ interface SpreadsheetGridProps {
   listings: JobListing[];
   selectedSkills: string[];
   onOpenColdMail: (listing: JobListing) => void;
+  onOpenDirectApply: (listing: JobListing) => void;
 }
 
 type SortField = 'company' | 'companyType' | 'roleTitle' | 'industry' | 'chance' | 'postedDate';
@@ -15,7 +16,8 @@ type SortOrder = 'asc' | 'desc';
 export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
   listings,
   selectedSkills,
-  onOpenColdMail
+  onOpenColdMail,
+  onOpenDirectApply
 }) => {
   const [sortField, setSortField] = useState<SortField>('chance');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
@@ -253,19 +255,17 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
                       </span>
                     </td>
 
-                    {/* Application Action */}
+                    {/* Application Action Button */}
                     <td>
-                      {item.applyMode === 'Direct Apply' && item.directApplyLink ? (
-                        <a
-                          href={item.directApplyLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-secondary"
-                          style={{ fontSize: '0.78rem', padding: '6px 12px', color: '#38bdf8', borderColor: 'rgba(56, 189, 248, 0.4)' }}
+                      {item.applyMode === 'Direct Apply' ? (
+                        <button
+                          onClick={() => onOpenDirectApply(item)}
+                          className="btn-primary"
+                          style={{ fontSize: '0.78rem', padding: '6px 12px', background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)', boxShadow: '0 0 12px rgba(6, 182, 212, 0.3)' }}
                         >
                           <ExternalLink size={12} />
                           <span>Direct Apply ↗</span>
-                        </a>
+                        </button>
                       ) : (
                         <button
                           className="btn-coldmail"
