@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+
+    <radialGradient id="cyanGlow" cx="20%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="indigoGlow" cx="80%" cy="20%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="emeraldGlow" cx="50%" cy="90%" r="40%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+
+    <filter id="glassBlur">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+
+    <filter id="neonShadow">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#06b6d4" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Layer -->
+  <rect width="1200" height="420" fill="url(#bgGrad)" rx="16"/>
+  <rect width="1200" height="420" fill="url(#cyanGlow)" rx="16"/>
+  <rect width="1200" height="420" fill="url(#indigoGlow)" rx="16"/>
+  <rect width="1200" height="420" fill="url(#emeraldGlow)" rx="16"/>
+
+  <!-- Border Frame -->
+  <rect x="2" y="2" width="1196" height="416" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" rx="15"/>
+
+  <!-- Decorative Grid Pattern -->
+  <path d="M 0 60 L 1200 60 M 0 120 L 1200 120 M 0 180 L 1200 180 M 0 240 L 1200 240 M 0 300 L 1200 300 M 0 360 L 1200 360" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+  <path d="M 150 0 L 150 420 M 300 0 L 300 420 M 450 0 L 450 420 M 600 0 L 600 420 M 750 0 L 750 420 M 900 0 L 900 420 M 1050 0 L 1050 420" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+
+  <!-- Left Header Content -->
+  <!-- Top Tagline Pill -->
+  <g transform="translate(60, 48)">
+    <rect width="270" height="32" rx="16" fill="rgba(6, 182, 212, 0.12)" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1"/>
+    <text x="16" y="21" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700">⚡ 500+ CAREER OPPORTUNITIES HUB</text>
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="125" fill="url(#titleGrad)" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="800" letter-spacing="-0.02em">
+    Tech Job Hunter &amp; Career Base
+  </text>
+
+  <!-- Subtitle -->
+  <text x="60" y="165" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="400">
+    Multi-Industry Discovery &amp; Outreach Engine for Tech, Automobile, Marketing, &amp; MNC Apprenticeships
+  </text>
+
+  <!-- Feature Pill Row -->
+  <g transform="translate(60, 195)">
+    <!-- Pill 1: Agentic AI -->
+    <rect x="0" y="0" width="135" height="34" rx="17" fill="rgba(6, 182, 212, 0.15)" stroke="rgba(6, 182, 212, 0.5)" stroke-width="1.2"/>
+    <text x="14" y="22" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">⚡ Agentic AI</text>
+
+    <!-- Pill 2: ML -->
+    <rect x="147" y="0" width="165" height="34" rx="17" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.5)" stroke-width="1.2"/>
+    <text x="161" y="22" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">🤖 Machine Learning</text>
+
+    <!-- Pill 3: DA -->
+    <rect x="324" y="0" width="150" height="34" rx="17" fill="rgba(245, 158, 11, 0.15)" stroke="rgba(245, 158, 11, 0.5)" stroke-width="1.2"/>
+    <text x="338" y="22" fill="#fbbf24" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">📊 Data Analytics</text>
+
+    <!-- Pill 4: MNC -->
+    <rect x="486" y="0" width="185" height="34" rx="17" fill="rgba(59, 130, 246, 0.15)" stroke="rgba(59, 130, 246, 0.5)" stroke-width="1.2"/>
+    <text x="500" y="22" fill="#60a5fa" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700">🎓 MNC Apprenticeships</text>
+  </g>
+
+  <!-- Card Illustration / Preview Box on Right -->
+  <g transform="translate(60, 255)">
+    <!-- Glass Container -->
+    <rect width="1080" height="125" rx="14" fill="rgba(15, 23, 42, 0.75)" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5"/>
+    
+    <!-- Table Header Simulation -->
+    <rect x="15" y="15" width="1050" height="32" rx="6" fill="rgba(30, 41, 59, 0.8)"/>
+    <text x="30" y="36" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">COMPANY</text>
+    <text x="210" y="36" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">ROLE &amp; SPECIALIZATION</text>
+    <text x="460" y="36" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">CATEGORY</text>
+    <text x="640" y="36" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">GETTING-IN CHANCE</text>
+    <text x="860" y="36" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">APPLICATION ACTION</text>
+
+    <!-- Row 1 -->
+    <text x="30" y="72" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">Google</text>
+    <text x="210" y="72" fill="#f1f5f9" font-family="sans-serif" font-size="13" font-weight="600">Agentic AI Systems Engineer</text>
+    <rect x="385" y="58" width="65" height="20" rx="4" fill="rgba(6,182,212,0.2)"/>
+    <text x="390" y="72" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">⚡ Agentic</text>
+
+    <text x="460" y="72" fill="#94a3b8" font-family="sans-serif" font-size="13">Tech &amp; IT</text>
+    
+    <rect x="640" y="56" width="140" height="24" rx="12" fill="rgba(16,185,129,0.2)" stroke="rgba(16,185,129,0.5)"/>
+    <text x="652" y="72" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">🟢 88% High Chance</text>
+
+    <rect x="860" y="56" width="110" height="24" rx="6" fill="#6366f1"/>
+    <text x="872" y="72" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">Direct Apply ↗</text>
+
+    <!-- Row 2 -->
+    <text x="30" y="105" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">Tesla / BMW</text>
+    <text x="210" y="105" fill="#f1f5f9" font-family="sans-serif" font-size="13" font-weight="600">Autonomous Driving ML Intern</text>
+    <rect x="395" y="91" width="55" height="20" rx="4" fill="rgba(16,185,129,0.2)"/>
+    <text x="400" y="105" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">🤖 ML</text>
+
+    <text x="460" y="105" fill="#94a3b8" font-family="sans-serif" font-size="13">Automobile</text>
+
+    <rect x="640" y="89" width="140" height="24" rx="12" fill="rgba(245,158,11,0.2)" stroke="rgba(245,158,11,0.5)"/>
+    <text x="652" y="105" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="700">🟡 72% Moderate</text>
+
+    <rect x="860" y="89" width="110" height="24" rx="6" fill="rgba(245,158,11,0.2)" stroke="rgba(245,158,11,0.5)"/>
+    <text x="874" y="105" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">Cold Mail ✉️</text>
+  </g>
+</svg>
