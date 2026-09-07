@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { JobListing } from '../types/job';
 import { calculateChance } from '../utils/chanceCalculator';
-import { ExternalLink, Mail, ArrowUpDown, Sparkles, Cpu, BarChart3, GraduationCap, ChevronLeft, ChevronRight, Flame } from 'lucide-react';
+import { ExternalLink, Mail, ArrowUpDown, Sparkles, Cpu, BarChart3, GraduationCap, ChevronLeft, ChevronRight, Flame, Building2, Zap } from 'lucide-react';
 
 interface SpreadsheetGridProps {
   listings: JobListing[];
@@ -9,7 +9,7 @@ interface SpreadsheetGridProps {
   onOpenColdMail: (listing: JobListing) => void;
 }
 
-type SortField = 'company' | 'roleTitle' | 'industry' | 'chance' | 'postedDate';
+type SortField = 'company' | 'companyType' | 'roleTitle' | 'industry' | 'chance' | 'postedDate';
 type SortOrder = 'asc' | 'desc';
 
 export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
@@ -50,6 +50,68 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
   const startIndex = pageSize === -1 ? 0 : (currentPage - 1) * pageSize;
   const paginatedListings = pageSize === -1 ? sortedListings : sortedListings.slice(startIndex, startIndex + pageSize);
 
+  const getCompanyTypeBadge = (type: string) => {
+    switch (type) {
+      case 'OG Startup':
+        return (
+          <span 
+            style={{
+              background: 'rgba(239, 68, 68, 0.15)',
+              color: '#fca5a5',
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+              borderRadius: '9999px',
+              padding: '4px 10px',
+              fontSize: '0.75rem',
+              fontWeight: 800,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <Flame size={12} color="#fca5a5" /> OG Startup
+          </span>
+        );
+      case 'MNC / Enterprise':
+        return (
+          <span 
+            style={{
+              background: 'rgba(59, 130, 246, 0.15)',
+              color: '#93c5fd',
+              border: '1px solid rgba(59, 130, 246, 0.4)',
+              borderRadius: '9999px',
+              padding: '4px 10px',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <Building2 size={12} color="#93c5fd" /> MNC Giant
+          </span>
+        );
+      default:
+        return (
+          <span 
+            style={{
+              background: 'rgba(16, 185, 129, 0.15)',
+              color: '#6ee7b7',
+              border: '1px solid rgba(16, 185, 129, 0.4)',
+              borderRadius: '9999px',
+              padding: '4px 10px',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <Zap size={12} color="#6ee7b7" /> Growth Tech
+          </span>
+        );
+    }
+  };
+
   const getSpecializationBadge = (spec: string) => {
     switch (spec) {
       case 'Agentic AI':
@@ -72,6 +134,12 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
               <th onClick={() => handleSort('company')} style={{ cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span>Company</span>
+                  <ArrowUpDown size={12} />
+                </div>
+              </th>
+              <th onClick={() => handleSort('companyType')} style={{ cursor: 'pointer' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span>Company Type</span>
                   <ArrowUpDown size={12} />
                 </div>
               </th>
@@ -101,7 +169,7 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
           <tbody>
             {paginatedListings.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+                <td colSpan={8} style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
                   No job listings found matching your search or filters. Try adjusting your criteria.
                 </td>
               </tr>
@@ -110,7 +178,7 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
                 const chance = calculateChance(item, selectedSkills);
                 return (
                   <tr key={item.id}>
-                    {/* Company Column with OG Startup Tag */}
+                    {/* Company Column */}
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <div 
@@ -118,43 +186,28 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
                             width: '34px',
                             height: '34px',
                             borderRadius: '8px',
-                            background: item.isOGStartup ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255, 255, 255, 0.08)',
-                            border: item.isOGStartup ? '1px solid rgba(239, 68, 68, 0.4)' : '1px solid var(--border-glass)',
+                            background: item.companyType === 'OG Startup' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255, 255, 255, 0.08)',
+                            border: item.companyType === 'OG Startup' ? '1px solid rgba(239, 68, 68, 0.4)' : '1px solid var(--border-glass)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             fontWeight: 700,
                             fontSize: '0.85rem',
-                            color: item.isOGStartup ? '#fca5a5' : 'var(--primary)'
+                            color: item.companyType === 'OG Startup' ? '#fca5a5' : 'var(--primary)'
                           }}
                         >
                           {item.company.charAt(0)}
                         </div>
                         <div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <strong style={{ fontSize: '0.9rem', color: 'white' }}>{item.company}</strong>
-                            {item.isOGStartup && (
-                              <span 
-                                style={{
-                                  background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%)',
-                                  color: '#fca5a5',
-                                  border: '1px solid rgba(239, 68, 68, 0.4)',
-                                  borderRadius: '4px',
-                                  padding: '1px 6px',
-                                  fontSize: '0.68rem',
-                                  fontWeight: 800,
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '2px'
-                                }}
-                              >
-                                <Flame size={10} color="#fca5a5" /> OG Startup
-                              </span>
-                            )}
-                          </div>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>{item.domain}</span>
+                          <strong style={{ fontSize: '0.9rem', color: 'white' }}>{item.company}</strong>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', display: 'block' }}>{item.domain}</span>
                         </div>
                       </div>
+                    </td>
+
+                    {/* Separate Company Type Column */}
+                    <td>
+                      {getCompanyTypeBadge(item.companyType)}
                     </td>
 
                     {/* Role Title & Specialization */}

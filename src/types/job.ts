@@ -13,6 +13,8 @@ export type Specialization =
   | 'Cloud & DevOps' 
   | 'Cybersecurity';
 
+export type CompanyType = 'MNC / Enterprise' | 'OG Startup' | 'Growth Tech';
+
 export interface ColdMailContact {
   hrTitle: string;
   contactEmail: string;
@@ -24,13 +26,13 @@ export interface JobListing {
   id: string;
   company: string;
   domain: string;
+  companyType: CompanyType;
   industry: IndustryCategory;
   specialization: Specialization;
   roleTitle: string;
   roleType: 'Entry-Level' | 'Apprenticeship' | 'Internship' | 'Junior (1-2 YOE)';
   location: string;
   isIndiaRole: boolean;
-  isOGStartup?: boolean;
   workType: 'Remote' | 'Hybrid' | 'On-site';
   applyMode: 'Direct Apply' | 'Cold Mail';
   directApplyLink?: string;

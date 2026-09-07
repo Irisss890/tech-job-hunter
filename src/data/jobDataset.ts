@@ -1,87 +1,100 @@
-import type { JobListing, IndustryCategory, Specialization } from '../types/job';
+import type { JobListing, IndustryCategory, Specialization, CompanyType } from '../types/job';
 
 const generate500Listings = (): JobListing[] => {
   const listings: JobListing[] = [];
 
-  const companiesByIndustry: Record<IndustryCategory, Array<{ company: string; domain: string; isIndianCompany?: boolean; isOGStartup?: boolean }>> = {
+  const companiesByIndustry: Record<IndustryCategory, Array<{ company: string; domain: string; companyType: CompanyType; isIndianCompany?: boolean }>> = {
     'Tech & IT': [
-      // Iconic Indian OG Startups
-      { company: 'Postman (India / Global)', domain: 'postman.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'BrowserStack', domain: 'browserstack.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Hasura AI', domain: 'hasura.io', isIndianCompany: true, isOGStartup: true },
-      { company: 'Freshworks Tech', domain: 'freshworks.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Zoho Corporation', domain: 'zoho.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Swiggy AI Labs', domain: 'swiggy.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Zomato AI & Data', domain: 'zomato.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Flipkart Engineering', domain: 'flipkart.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'CRED Engineering', domain: 'cred.club', isIndianCompany: true, isOGStartup: true },
-      { company: 'InMobi AdTech', domain: 'inmobi.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Meesho Tech', domain: 'meesho.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Urban Company AI', domain: 'urbancompany.com', isIndianCompany: true, isOGStartup: true },
+      // MNC / Enterprise Giants
+      { company: 'Google India', domain: 'google.co.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Microsoft India', domain: 'microsoft.com/en-in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Amazon India Tech', domain: 'amazon.jobs/en-in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Nvidia India R&D', domain: 'nvidia.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Adobe India', domain: 'adobe.com/in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Oracle India', domain: 'oracle.com/in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Apple Tech', domain: 'apple.com', companyType: 'MNC / Enterprise' },
 
-      // Global OG Startups
-      { company: 'OpenAI', domain: 'openai.com', isOGStartup: true },
-      { company: 'Anthropic AI', domain: 'anthropic.com', isOGStartup: true },
-      { company: 'Scale AI', domain: 'scale.com', isOGStartup: true },
-      { company: 'Vercel', domain: 'vercel.com', isOGStartup: true },
-      { company: 'Supabase', domain: 'supabase.com', isOGStartup: true },
-      { company: 'Linear', domain: 'linear.app', isOGStartup: true },
-      { company: 'Perplexity AI', domain: 'perplexity.ai', isOGStartup: true },
-      { company: 'Midjourney AI', domain: 'midjourney.com', isOGStartup: true },
-      { company: 'Hugging Face', domain: 'huggingface.co', isOGStartup: true },
-      { company: 'Cursor / Anysphere', domain: 'cursor.com', isOGStartup: true },
-      { company: 'Figma', domain: 'figma.com', isOGStartup: true },
-      { company: 'Notion Tech', domain: 'notion.so', isOGStartup: true },
+      // OG Startups & Unicorns
+      { company: 'Postman', domain: 'postman.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'BrowserStack', domain: 'browserstack.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Hasura AI', domain: 'hasura.io', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Freshworks Tech', domain: 'freshworks.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Zoho Corporation', domain: 'zoho.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Swiggy AI Labs', domain: 'swiggy.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Zomato AI & Data', domain: 'zomato.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Flipkart Engineering', domain: 'flipkart.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'CRED Engineering', domain: 'cred.club', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'OpenAI', domain: 'openai.com', companyType: 'OG Startup' },
+      { company: 'Anthropic AI', domain: 'anthropic.com', companyType: 'OG Startup' },
+      { company: 'Scale AI', domain: 'scale.com', companyType: 'OG Startup' },
+      { company: 'Vercel', domain: 'vercel.com', companyType: 'OG Startup' },
+      { company: 'Supabase', domain: 'supabase.com', companyType: 'OG Startup' },
+      { company: 'Linear', domain: 'linear.app', companyType: 'OG Startup' },
+      { company: 'Perplexity AI', domain: 'perplexity.ai', companyType: 'OG Startup' },
+      { company: 'Cursor / Anysphere', domain: 'cursor.com', companyType: 'OG Startup' },
+      { company: 'Notion Tech', domain: 'notion.so', companyType: 'OG Startup' },
 
-      // MNC Tech Giants
-      { company: 'Google India', domain: 'google.co.in', isIndianCompany: true },
-      { company: 'Microsoft India', domain: 'microsoft.com/en-in', isIndianCompany: true },
-      { company: 'Amazon India Tech', domain: 'amazon.jobs/en-in', isIndianCompany: true },
-      { company: 'Nvidia India R&D', domain: 'nvidia.com', isIndianCompany: true },
-      { company: 'Adobe India', domain: 'adobe.com/in', isIndianCompany: true }
+      // Growth Tech
+      { company: 'Persistent Systems', domain: 'persistent.com', companyType: 'Growth Tech', isIndianCompany: true },
+      { company: 'LTI Mindtree AI', domain: 'ltimindtree.com', companyType: 'Growth Tech', isIndianCompany: true },
+      { company: 'InMobi AdTech', domain: 'inmobi.com', companyType: 'Growth Tech', isIndianCompany: true }
     ],
     'Automobile & Mobility': [
-      { company: 'Ather Energy AI (OG Startup)', domain: 'atherenergy.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Ola Electric Mobility (OG Startup)', domain: 'olaelectric.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Rivian Automotive (OG Startup)', domain: 'rivian.com', isOGStartup: true },
-      { company: 'Lucid Motors (OG Startup)', domain: 'lucidmotors.com', isOGStartup: true },
-      { company: 'Waymo Autonomous (OG Startup)', domain: 'waymo.com', isOGStartup: true },
-      { company: 'Tata Motors EV & AI', domain: 'tatamotors.com', isIndianCompany: true },
-      { company: 'Mahindra Tech & Mobility', domain: 'mahindra.com', isIndianCompany: true },
-      { company: 'Mercedes-Benz R&D India (MBRDI)', domain: 'mbrdi.mercedes-benz.com', isIndianCompany: true },
-      { company: 'BMW TechWorks India', domain: 'bmwgroup.jobs', isIndianCompany: true },
-      { company: 'Robert Bosch India (RBAI)', domain: 'bosch.in', isIndianCompany: true }
+      // MNC Automobile Giants
+      { company: 'Mercedes-Benz R&D India (MBRDI)', domain: 'mbrdi.mercedes-benz.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'BMW TechWorks India', domain: 'bmwgroup.jobs', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Robert Bosch India (RBAI)', domain: 'bosch.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Tata Motors EV & AI', domain: 'tatamotors.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Mahindra Tech & Mobility', domain: 'mahindra.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Tesla Tech', domain: 'tesla.com', companyType: 'MNC / Enterprise' },
+      { company: 'Ford Mobility Tech', domain: 'ford.com', companyType: 'MNC / Enterprise' },
+      { company: 'Siemens Mobility India', domain: 'siemens.co.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+
+      // Mobility OG Startups
+      { company: 'Ather Energy AI', domain: 'atherenergy.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Ola Electric Mobility', domain: 'olaelectric.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Rivian Autonomous', domain: 'rivian.com', companyType: 'OG Startup' },
+      { company: 'Waymo Autonomous', domain: 'waymo.com', companyType: 'OG Startup' }
     ],
     'Marketing & AdTech': [
-      { company: 'CleverTap (OG Startup)', domain: 'clevertap.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'WebEngage (OG Startup)', domain: 'webengage.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'InMobi AdTech (OG Startup)', domain: 'inmobi.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Klaviyo (OG Startup)', domain: 'klaviyo.com', isOGStartup: true },
-      { company: 'Braze (OG Startup)', domain: 'braze.com', isOGStartup: true },
-      { company: 'HubSpot', domain: 'hubspot.com', isOGStartup: true },
-      { company: 'Adobe Experience India', domain: 'adobe.com/in', isIndianCompany: true },
-      { company: 'Ogilvy India Digital', domain: 'ogilvy.in', isIndianCompany: true }
+      // Enterprise Giants
+      { company: 'Adobe Experience India', domain: 'adobe.com/in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Salesforce Marketing Cloud', domain: 'salesforce.com', companyType: 'MNC / Enterprise' },
+      { company: 'Ogilvy India Digital', domain: 'ogilvy.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Publicis Sapient India', domain: 'publicissapient.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+
+      // OG Startups
+      { company: 'CleverTap Analytics', domain: 'clevertap.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'WebEngage Growth Tech', domain: 'webengage.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Klaviyo AdTech', domain: 'klaviyo.com', companyType: 'OG Startup' },
+      { company: 'HubSpot', domain: 'hubspot.com', companyType: 'OG Startup' }
     ],
     'MNC Apprenticeships': [
-      { company: 'Google STEP & Apprentice (India)', domain: 'buildyourfuture.withgoogle.com', isIndianCompany: true },
-      { company: 'Microsoft LEAP India', domain: 'microsoft.com/leap', isIndianCompany: true },
-      { company: 'Amazon Technical Apprentice India', domain: 'amazon.jobs/en-in', isIndianCompany: true },
-      { company: 'IBM Technical Apprenticeship India', domain: 'ibm.com/in-en', isIndianCompany: true },
-      { company: 'Bosch India Graduate & Apprentice', domain: 'bosch.in', isIndianCompany: true },
-      { company: 'Mercedes-Benz MBRDI Academy', domain: 'mbrdi.mercedes-benz.com', isIndianCompany: true },
-      { company: 'Tata Tech Apprenticeship Program', domain: 'tatatechnologies.com', isIndianCompany: true }
+      // MNC Apprenticeship Programs
+      { company: 'Google STEP & Apprentice (India)', domain: 'buildyourfuture.withgoogle.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Microsoft LEAP India', domain: 'microsoft.com/leap', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Amazon Technical Apprentice India', domain: 'amazon.jobs/en-in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'IBM Technical Apprenticeship India', domain: 'ibm.com/in-en', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Bosch India Graduate & Apprentice', domain: 'bosch.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Mercedes-Benz MBRDI Academy', domain: 'mbrdi.mercedes-benz.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Siemens Tech Apprentice India', domain: 'siemens.co.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Tata Tech Apprenticeship Program', domain: 'tatatechnologies.com', companyType: 'MNC / Enterprise', isIndianCompany: true }
     ],
     'FinTech & Banking': [
-      { company: 'Razorpay Engineering (OG Startup)', domain: 'razorpay.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'PhonePe Tech (OG Startup)', domain: 'phonepe.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Zerodha Tech (OG Startup)', domain: 'zerodha.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Groww Tech Labs (OG Startup)', domain: 'groww.in', isIndianCompany: true, isOGStartup: true },
-      { company: 'CRED FinTech (OG Startup)', domain: 'cred.club', isIndianCompany: true, isOGStartup: true },
-      { company: 'Pine Labs AI (OG Startup)', domain: 'pinelabs.com', isIndianCompany: true, isOGStartup: true },
-      { company: 'Stripe Engine (OG Startup)', domain: 'stripe.com', isOGStartup: true },
-      { company: 'Plaid (OG Startup)', domain: 'plaid.com', isOGStartup: true },
-      { company: 'Goldman Sachs India (Bengaluru)', domain: 'goldmansachs.com', isIndianCompany: true },
-      { company: 'JPMorgan Chase India (Bengaluru/Hyd)', domain: 'jpmorganchase.com', isIndianCompany: true }
+      // MNC Banking Giants
+      { company: 'Goldman Sachs India (Bengaluru)', domain: 'goldmansachs.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'JPMorgan Chase India (Bengaluru/Hyd)', domain: 'jpmorganchase.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Morgan Stanley India Tech', domain: 'morganstanley.com', companyType: 'MNC / Enterprise', isIndianCompany: true },
+      { company: 'Barclays Global Centre India', domain: 'barclays.in', companyType: 'MNC / Enterprise', isIndianCompany: true },
+
+      // FinTech OG Startups
+      { company: 'Razorpay Engineering', domain: 'razorpay.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'PhonePe Tech', domain: 'phonepe.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Zerodha Tech', domain: 'zerodha.com', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Groww Tech Labs', domain: 'groww.in', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'CRED FinTech', domain: 'cred.club', companyType: 'OG Startup', isIndianCompany: true },
+      { company: 'Stripe Engine', domain: 'stripe.com', companyType: 'OG Startup' },
+      { company: 'Plaid Tech', domain: 'plaid.com', companyType: 'OG Startup' }
     ]
   };
 
@@ -272,13 +285,13 @@ const generate500Listings = (): JobListing[] => {
           id: `job-${idCounter}`,
           company: compObj.company,
           domain: compObj.domain,
+          companyType: compObj.companyType,
           industry: ind,
           specialization: roleTmpl.specialization,
           roleTitle: ind === 'MNC Apprenticeships' && !title.includes('Apprentice') ? `${title} (MNC Program)` : title,
           roleType: ind === 'MNC Apprenticeships' ? 'Apprenticeship' : (idCounter % 3 === 0 ? 'Internship' : 'Entry-Level'),
           location: location,
           isIndiaRole: isIndia,
-          isOGStartup: !!compObj.isOGStartup,
           workType: location.includes('Remote') ? 'Remote' : (idCounter % 2 === 0 ? 'Hybrid' : 'On-site'),
           applyMode: isDirect ? 'Direct Apply' : 'Cold Mail',
           directApplyLink: isDirect ? `https://${compObj.domain}/careers` : undefined,

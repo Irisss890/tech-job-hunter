@@ -1,20 +1,24 @@
 import React from 'react';
-import type { IndustryCategory, Specialization } from '../types/job';
-import { Sparkles, Cpu, BarChart3, GraduationCap, Link, Mail, Globe, Flame } from 'lucide-react';
+import type { IndustryCategory, Specialization, CompanyType } from '../types/job';
+import { Sparkles, Cpu, BarChart3, GraduationCap, Link, Mail, Globe, Flame, Building2, Zap, Layers } from 'lucide-react';
 
 export type RegionFilter = 'All' | 'National' | 'International';
 
 interface CategoryTabsProps {
   activeRegion: RegionFilter;
   onSelectRegion: (region: RegionFilter) => void;
+  activeCompanyType: CompanyType | 'All';
+  onSelectCompanyType: (type: CompanyType | 'All') => void;
   activeIndustry: IndustryCategory | 'All';
   onSelectIndustry: (ind: IndustryCategory | 'All') => void;
-  activeSpecialization: Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail' | 'OG Startups';
+  activeSpecialization: Specialization | 'All' | 'MNC Apprenticeships' | 'Direct Apply' | 'Cold Mail';
   onSelectSpecialization: (spec: any) => void;
   countsByIndustry: Record<string, number>;
   nationalCount: number;
   internationalCount: number;
+  mncCount: number;
   ogStartupCount: number;
+  growthTechCount: number;
 }
 
 const INDUSTRIES: Array<IndustryCategory | 'All'> = [
@@ -29,6 +33,8 @@ const INDUSTRIES: Array<IndustryCategory | 'All'> = [
 export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   activeRegion,
   onSelectRegion,
+  activeCompanyType,
+  onSelectCompanyType,
   activeIndustry,
   onSelectIndustry,
   activeSpecialization,
@@ -36,7 +42,9 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   countsByIndustry,
   nationalCount,
   internationalCount,
-  ogStartupCount
+  mncCount,
+  ogStartupCount,
+  growthTechCount
 }) => {
   return (
     <div style={{ marginBottom: '24px' }}>
@@ -46,7 +54,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
         className="glass-panel" 
         style={{
           padding: '16px 20px',
-          marginBottom: '20px',
+          marginBottom: '16px',
           background: 'rgba(15, 23, 42, 0.85)',
           border: '1px solid var(--border-highlight)',
           boxShadow: '0 0 20px rgba(99, 102, 241, 0.15)'
@@ -210,6 +218,107 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
         </div>
       </div>
 
+      {/* 🏢 SEPARATE COMPANY TYPE SELECTOR BAR (MNCs vs Startups vs Growth) */}
+      <div 
+        className="glass-panel" 
+        style={{
+          padding: '12px 18px',
+          marginBottom: '16px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          flexWrap: 'wrap',
+          background: 'rgba(15, 23, 42, 0.6)'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginRight: '6px' }}>
+          <Layers size={16} color="var(--primary)" />
+          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-main)' }}>
+            Company Type Filter:
+          </span>
+        </div>
+
+        <button
+          onClick={() => onSelectCompanyType('All')}
+          style={{
+            background: activeCompanyType === 'All' ? 'var(--primary)' : 'rgba(255, 255, 255, 0.05)',
+            color: activeCompanyType === 'All' ? 'white' : 'var(--text-muted)',
+            border: 'none',
+            borderRadius: 'var(--radius-sm)',
+            padding: '6px 14px',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          All Scale Types
+        </button>
+
+        <button
+          onClick={() => onSelectCompanyType('MNC / Enterprise')}
+          style={{
+            background: activeCompanyType === 'MNC / Enterprise' ? 'rgba(59, 130, 246, 0.25)' : 'rgba(255, 255, 255, 0.05)',
+            color: activeCompanyType === 'MNC / Enterprise' ? '#93c5fd' : 'var(--text-muted)',
+            border: activeCompanyType === 'MNC / Enterprise' ? '1px solid #3b82f6' : '1px solid var(--border-glass)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '6px 14px',
+            fontSize: '0.8rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <Building2 size={14} color="#93c5fd" />
+          🏢 MNC / Enterprise Giants ({mncCount})
+        </button>
+
+        <button
+          onClick={() => onSelectCompanyType('OG Startup')}
+          style={{
+            background: activeCompanyType === 'OG Startup' ? 'rgba(239, 68, 68, 0.25)' : 'rgba(255, 255, 255, 0.05)',
+            color: activeCompanyType === 'OG Startup' ? '#fca5a5' : 'var(--text-muted)',
+            border: activeCompanyType === 'OG Startup' ? '1px solid #ef4444' : '1px solid var(--border-glass)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '6px 14px',
+            fontSize: '0.8rem',
+            fontWeight: 800,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <Flame size={14} color="#fca5a5" />
+          🔥 OG Startups &amp; Unicorns ({ogStartupCount})
+        </button>
+
+        <button
+          onClick={() => onSelectCompanyType('Growth Tech')}
+          style={{
+            background: activeCompanyType === 'Growth Tech' ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255, 255, 255, 0.05)',
+            color: activeCompanyType === 'Growth Tech' ? '#6ee7b7' : 'var(--text-muted)',
+            border: activeCompanyType === 'Growth Tech' ? '1px solid #10b981' : '1px solid var(--border-glass)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '6px 14px',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <Zap size={14} color="#6ee7b7" />
+          ⚡ Growth Tech ({growthTechCount})
+        </button>
+      </div>
+
       {/* Primary Industry Category Tabs */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflowX: 'auto', paddingBottom: '8px', borderBottom: '1px solid var(--border-glass)' }}>
         {INDUSTRIES.map((ind) => {
@@ -255,32 +364,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
 
       {/* Special Highlight Filter Chips */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '14px', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)', fontWeight: 600 }}>Highlight Filters:</span>
-
-        {/* 🔥 OG Startups Filter Chip */}
-        <button
-          onClick={() => onSelectSpecialization(activeSpecialization === 'OG Startups' ? 'All' : 'OG Startups')}
-          style={{
-            background: activeSpecialization === 'OG Startups'
-              ? 'linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(245, 158, 11, 0.3) 100%)'
-              : 'rgba(239, 68, 68, 0.12)',
-            color: '#fca5a5',
-            border: '1px solid rgba(239, 68, 68, 0.5)',
-            boxShadow: activeSpecialization === 'OG Startups' ? '0 0 16px rgba(239, 68, 68, 0.4)' : undefined,
-            padding: '6px 14px',
-            borderRadius: '9999px',
-            fontSize: '0.8rem',
-            fontWeight: 800,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'all 0.15s ease'
-          }}
-        >
-          <Flame size={14} color="#fca5a5" />
-          🔥 OG Startups ({ogStartupCount})
-        </button>
+        <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)', fontWeight: 600 }}>Role Highlights:</span>
 
         <button
           onClick={() => onSelectSpecialization(activeSpecialization === 'Agentic AI' ? 'All' : 'Agentic AI')}
